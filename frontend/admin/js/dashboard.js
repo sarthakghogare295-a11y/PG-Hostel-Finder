@@ -47,7 +47,7 @@ function checkAdminAuth() {
 
     if (!raw || !token) {
       window.location.href =
-        "../../html/login.html";
+        "../login.html";
       return null;
     }
 
@@ -58,7 +58,7 @@ function checkAdminAuth() {
       user.role !== "admin"
     ) {
       window.location.href =
-        "../../html/login.html";
+        "../login.html";
       return null;
     }
 
@@ -69,7 +69,7 @@ function checkAdminAuth() {
     );
 
     window.location.href =
-      "../../html/login.html";
+      "../login.html";
 
     return null;
   }
@@ -132,7 +132,7 @@ function initLogout() {
       );
 
       window.location.href =
-        "../../html/login.html";
+        "../login.html";
     }
   );
 }
@@ -957,7 +957,7 @@ function renderRecentProperties() {
         );
 
       viewLink.href =
-        `../../html/details.html?id=${encodeURIComponent(
+        `../../details.html?id=${encodeURIComponent(
           property._id
         )}`;
 
@@ -1194,7 +1194,7 @@ async function updateBookingStatus(
 
   if (!token) {
     window.location.href =
-      "../../html/login.html";
+      "../login.html";
 
     return;
   }
@@ -1311,3 +1311,6 @@ function formatSafeDate(
     formatOpts
   );
 }
+
+
+

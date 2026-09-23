@@ -42,11 +42,11 @@ function checkAdminAuth() {
   let user = null;
   try {
     const raw = sessionStorage.getItem("pg_current_user");
-    if (!raw) { window.location.href = "../../html/login.html"; return null; }
+    if (!raw) { window.location.href = "../login.html"; return null; }
     user = JSON.parse(raw);
-    if (!user || user.role !== "admin") { window.location.href = "../../html/login.html"; return null; }
+    if (!user || user.role !== "admin") { window.location.href = "../login.html"; return null; }
   } catch (err) {
-    window.location.href = "../../html/login.html";
+    window.location.href = "../login.html";
     return null;
   }
   if (content) content.style.display = "block";
@@ -63,7 +63,7 @@ function setupAdminProfile(user) {
 function initLogout() {
   bindSafeEvent("adminLogoutBtn", "click", () => {
     try { sessionStorage.removeItem("pg_current_user"); } catch (e) {}
-    window.location.href = "../../html/login.html";
+    window.location.href = "../login.html";
   });
 }
 
@@ -96,7 +96,7 @@ async function loadBookingsData() {
   const token = sessionStorage.getItem("pg_token");
 
   if (!token) {
-    window.location.href = "../../html/login.html";
+    window.location.href = "../login.html";
     return;
   }
 
@@ -518,7 +518,7 @@ window.updateStatus = async function(bookingId, newStatus) {
   const token = sessionStorage.getItem("pg_token");
 
   if (!token) {
-    window.location.href = "../../html/login.html";
+    window.location.href = "../login.html";
     return;
   }
 
@@ -633,3 +633,6 @@ function bindModalEvents() {
     }
   });
 }
+
+
+

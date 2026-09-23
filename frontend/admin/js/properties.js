@@ -55,19 +55,19 @@ function checkAdminAuth() {
         const token = sessionStorage.getItem("pg_token");
 
         if (!rawUser || !token) {
-            window.location.href = "../../html/login.html";
+            window.location.href = "../login.html";
             return null;
         }
 
         user = JSON.parse(rawUser);
 
         if (!user || user.role !== "admin") {
-            window.location.href = "../../html/login.html";
+            window.location.href = "../login.html";
             return null;
         }
     } catch (error) {
         console.error("Admin authentication error:", error);
-        window.location.href = "../../html/login.html";
+        window.location.href = "../login.html";
         return null;
     }
 
@@ -111,7 +111,7 @@ function initLogout() {
         sessionStorage.removeItem("pg_current_user");
         sessionStorage.removeItem("pg_token");
 
-        window.location.href = "../../html/login.html";
+        window.location.href = "../login.html";
     });
 }
 
@@ -2339,3 +2339,6 @@ window.deleteRoom =
             );
         }
     };
+
+
+

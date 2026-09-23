@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manage Users — PG Finder Admin</title>
-  <meta name="description" content="Manage registered platform users and account statuses.">
+  <title>Manage Bookings — PG Finder Admin</title>
+  <meta name="description" content="Manage and track PG/Hostel booking requests.">
 
   <!-- Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,10 +12,10 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <!-- Shared Global Stylesheet -->
-  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../css/style.css">
 
-  <!-- Admin Users Specific Stylesheet -->
-  <link rel="stylesheet" href="../css/users.css">
+  <!-- Admin Bookings Specific Stylesheet -->
+  <link rel="stylesheet" href="css/bookings.css">
 </head>
 <body class="admin-body">
 
@@ -27,7 +27,7 @@
       </div>
       <h2>Authentication Required</h2>
       <p>Please log in with an admin account to access this page.</p>
-      <a href="../../html/login.html" class="btn btn-primary auth-guard-btn">Go to Login</a>
+      <a href="../login.html" class="btn btn-primary auth-guard-btn">Go to Login</a>
     </div>
   </div>
 
@@ -58,13 +58,13 @@
             </a>
           </li>
           <li>
-            <a href="bookings.html" class="sidebar-link">
+            <a href="bookings.html" class="sidebar-link active">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
               Bookings
             </a>
           </li>
           <li>
-            <a href="users.html" class="sidebar-link active">
+            <a href="users.html" class="sidebar-link">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
               Users
             </a>
@@ -72,7 +72,7 @@
         </ul>
 
         <div class="sidebar-bottom">
-          <a href="../../html/index.html" class="sidebar-link" target="_blank">
+          <a href="../index.html" class="sidebar-link" target="_blank">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
             View Website
           </a>
@@ -97,7 +97,7 @@
             <span class="hamburger-bar"></span>
             <span class="hamburger-bar"></span>
           </button>
-          <h1 class="topbar-title">Manage Users</h1>
+          <h1 class="topbar-title">Manage Bookings</h1>
         </div>
         <div class="topbar-right">
           <div class="admin-profile-menu">
@@ -110,50 +110,57 @@
       <main class="admin-content" id="adminContent" style="display: none;">
         
         <!-- Stats Grid -->
-        <section class="admin-stats-grid" id="userStatsGrid">
-          <!-- Rendered by JS -->
+        <section class="admin-stats-grid" id="bookingStatsGrid">
+          <!-- Rendered dynamically by JS -->
         </section>
 
         <!-- Controls & Filters -->
         <div class="admin-controls-card">
           <div class="controls-left">
-            <div class="search-input-wrap" style="flex: 2;">
+            <div class="search-input-wrap" style="flex: 1.5;">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              <input type="text" id="searchUser" aria-label="Search users" placeholder="Search by name or email address...">
+              <input type="text" id="searchBooking" placeholder="Search ID, guest name, or email...">
             </div>
-            <select id="filterStatus" class="admin-filter-select" aria-label="Filter users by status" style="flex: 1;">
+            <select id="filterStatus" class="admin-filter-select" style="flex: 1;">
               <option value="All">All Statuses</option>
-              <option value="Active">Active</option>
-              <option value="Disabled">Disabled</option>
+              <option value="Requested">Requested</option>
+              <option value="Confirmed">Confirmed</option>
+              <option value="Completed">Completed</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+            <select id="filterProperty" class="admin-filter-select" style="flex: 1;">
+              <option value="All">All Properties</option>
+              <!-- Options populated by JS based on existing bookings -->
             </select>
           </div>
         </div>
 
-        <!-- Users Table -->
+        <!-- Bookings Table -->
         <div class="admin-card table-card">
           <div class="table-header-info">
-            <span class="property-count" id="userCount">0 Users Registered</span>
+            <span class="property-count" id="bookingCount">0 Bookings Found</span>
           </div>
           <div class="table-responsive">
             <table class="admin-table">
               <thead>
                 <tr>
-                  <th>User Profile</th>
-                  <th>Contact Details</th>
-                  <th>Registration Date</th>
-                  <th>Bookings</th>
+                  <th>Booking ID</th>
+                  <th>Guest Info</th>
+                  <th>Property / Room</th>
+                  <th>Dates</th>
+                  <th>Amount</th>
                   <th>Status</th>
                   <th class="text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody id="usersTableBody">
+              <tbody id="bookingsTableBody">
                 <!-- Rendered via JS -->
               </tbody>
             </table>
           </div>
           
           <div id="emptyTableState" class="empty-table-state" style="display: none;">
-            <p>No users match your search criteria.</p>
+            <p>No bookings match your search or filter criteria.</p>
             <button class="btn btn-outline" id="clearFiltersBtn">Clear Filters</button>
           </div>
         </div>
@@ -161,84 +168,98 @@
     </div>
   </div>
 
-  <!-- ================= USER DETAILS MODAL ================= -->
+  <!-- ================= BOOKING DETAILS MODAL ================= -->
   <div class="modal-overlay" id="detailsModalOverlay">
-    <div class="modal-card">
+    <div class="modal-card modal-lg">
       <div class="modal-header">
-        <h3 class="modal-title">User Profile Details</h3>
-        <button class="modal-close-btn" id="closeDetailsModal" aria-label="Close user details dialog">&times;</button>
+        <h3 class="modal-title">Booking Details</h3>
+        <button class="modal-close-btn" id="closeDetailsModal">&times;</button>
       </div>
       <div class="modal-body">
-        <div class="modal-user-avatar-wrap">
-          <div class="modal-avatar" id="modalUserAvatar">U</div>
-          <h4 id="modalUserName">User Name</h4>
-          <span class="status-badge" id="modalUserStatusBadge">Active</span>
+        
+        <div class="details-status-bar" id="modalStatusBar">
+          <span class="status-badge" id="modalStatusBadge">Status</span>
+          <span class="booking-id-text" id="modalBookingId">ID: PG000000</span>
+        </div>
+
+        <div class="form-grid-2">
+          <!-- Guest Information -->
+          <div class="detail-group-card">
+            <h4>Guest Information</h4>
+            <div class="info-line">
+              <span class="info-label">Name:</span>
+              <span class="info-value" id="modalGuestName">--</span>
+            </div>
+            <div class="info-line">
+              <span class="info-label">Email:</span>
+              <span class="info-value" id="modalGuestEmail">--</span>
+            </div>
+            <div class="info-line">
+              <span class="info-label">Phone:</span>
+              <span class="info-value" id="modalGuestPhone">--</span>
+            </div>
+            <div class="info-line">
+              <span class="info-label">Occupants:</span>
+              <span class="info-value" id="modalOccupants">--</span>
+            </div>
+          </div>
+
+          <!-- Property Information -->
+          <div class="detail-group-card">
+            <h4>Property Details</h4>
+            <div class="info-line">
+              <span class="info-label">Property:</span>
+              <span class="info-value text-primary font-bold" id="modalPropertyName">--</span>
+            </div>
+            <div class="info-line">
+              <span class="info-label">Location:</span>
+              <span class="info-value" id="modalLocation">--</span>
+            </div>
+            <div class="info-line">
+              <span class="info-label">Room Type:</span>
+              <span class="info-value" id="modalRoomType">--</span>
+            </div>
+            <div class="info-line">
+              <span class="info-label">Move-in Date:</span>
+              <span class="info-value font-bold" id="modalMoveInDate">--</span>
+            </div>
+          </div>
         </div>
 
         <div class="detail-group-card full-width">
-          <div class="info-line">
-            <span class="info-label">Email Address:</span>
-            <span class="info-value font-bold" id="modalUserEmail">--</span>
-          </div>
-          <div class="info-line">
-            <span class="info-label">Mobile Number:</span>
-            <span class="info-value" id="modalUserMobile">--</span>
-          </div>
-          <div class="info-line">
-            <span class="info-label">Registration Date:</span>
-            <span class="info-value" id="modalUserJoined">--</span>
-          </div>
-          <div class="info-line">
-            <span class="info-label">Total Bookings:</span>
-            <span class="info-value text-primary font-bold" id="modalUserBookingsCount">0</span>
+          <h4>Payment Breakdown</h4>
+          <div class="payment-breakdown">
+            <div class="info-line">
+              <span class="info-label">Monthly Rent:</span>
+              <span class="info-value">₹<span id="modalRent">0</span></span>
+            </div>
+            <div class="info-line">
+              <span class="info-label">Security Deposit:</span>
+              <span class="info-value">₹<span id="modalDeposit">0</span></span>
+            </div>
+            <div class="info-line total-line">
+              <span class="info-label">Total Initial Amount:</span>
+              <span class="info-value text-primary font-bold">₹<span id="modalTotal">0</span></span>
+            </div>
           </div>
         </div>
+
+        <div class="detail-group-card full-width" id="specialRequestsWrapper" style="display:none;">
+          <h4>Special Requests</h4>
+          <p class="special-request-text" id="modalSpecialRequests">--</p>
+        </div>
+
+        <div class="detail-group-card full-width">
+          <p class="meta-date">Booking submitted on: <span id="modalCreatedAt">--</span></p>
+        </div>
+
       </div>
     </div>
   </div>
 
-  <!-- ================= EDIT USER MODAL ================= -->
-  <div class="modal-overlay" id="editModalOverlay">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h3 class="modal-title">Edit User Information</h3>
-        <button class="modal-close-btn" id="closeEditModal" aria-label="Close edit user dialog">&times;</button>
-      </div>
-      <div class="modal-body">
-        <form id="editUserForm" novalidate>
-          <input type="hidden" id="editUserEmailKey">
-          <div class="form-group full-width">
-            <label for="editUserName">Full Name <span class="req">*</span></label>
-            <input type="text" id="editUserName" class="admin-input" required>
-          </div>
-          <div class="form-group full-width">
-            <label for="editUserMobile">Mobile Number <span class="req">*</span></label>
-            <input type="tel" id="editUserMobile" class="admin-input" maxlength="10" required>
-          </div>
-          <div class="modal-footer-actions">
-            <button type="button" class="btn btn-outline" id="cancelEditBtn">Cancel</button>
-            <button type="submit" class="btn btn-primary">Save Changes</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <!-- ================= DELETE CONFIRMATION MODAL ================= -->
-  <div class="modal-overlay" id="deleteModalOverlay">
-    <div class="modal-card modal-compact">
-      <div class="modal-icon alert-icon">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      </div>
-      <h3 class="modal-title">Delete User Account?</h3>
-      <p class="modal-text">Are you sure you want to delete <strong id="deleteUserTargetName">this user</strong>? This action cannot be undone.</p>
-      <div class="modal-actions">
-        <button type="button" class="btn btn-outline" id="cancelDeleteBtn">Cancel</button>
-        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Yes, Delete</button>
-      </div>
-    </div>
-  </div>
-
-  <script src="../js/users.js"></script>
+  <script src="js/bookings.js"></script>
 </body>
 </html>
+
+
+

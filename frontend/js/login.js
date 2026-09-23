@@ -289,7 +289,7 @@ function initLoginForm() {
       setTimeout(() => {
         if (data.user.role === "admin") {
           window.location.href =
-            "../admin/html/dashboard.html";
+            "admin/dashboard.html";
         } else {
           window.location.href =
             "dashboard.html";
@@ -423,3 +423,4 @@ function hideFormMessage() {
     );
   }
 }
+

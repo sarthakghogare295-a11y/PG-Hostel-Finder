@@ -53,7 +53,7 @@ function checkAdminAuth() {
 
     if (!raw || !token) {
       window.location.href =
-        "../../html/login.html";
+        "../login.html";
 
       return null;
     }
@@ -65,7 +65,7 @@ function checkAdminAuth() {
       user.role !== "admin"
     ) {
       window.location.href =
-        "../../html/login.html";
+        "../login.html";
 
       return null;
     }
@@ -77,7 +77,7 @@ function checkAdminAuth() {
     );
 
     window.location.href =
-      "../../html/login.html";
+      "../login.html";
 
     return null;
   }
@@ -132,7 +132,7 @@ function initLogout() {
       );
 
       window.location.href =
-        "../../html/login.html";
+        "../login.html";
     }
   );
 }
@@ -211,7 +211,7 @@ async function loadUsersData() {
 
   if (!token) {
     window.location.href =
-      "../../html/login.html";
+      "../login.html";
 
     return;
   }
@@ -1598,7 +1598,7 @@ async function updateUser(
 
   if (!token) {
     window.location.href =
-      "../../html/login.html";
+      "../login.html";
 
     return false;
   }
@@ -1684,7 +1684,7 @@ async function toggleUserStatus(
 
   if (!token) {
     window.location.href =
-      "../../html/login.html";
+      "../login.html";
 
     return;
   }
@@ -1808,7 +1808,7 @@ async function deleteUser(
 
   if (!token) {
     window.location.href =
-      "../../html/login.html";
+      "../login.html";
 
     return;
   }
@@ -2074,7 +2074,7 @@ function bindModalEvents() {
 
       if (!token) {
         window.location.href =
-          "../../html/login.html";
+          "../login.html";
 
         return;
       }
@@ -2201,3 +2201,6 @@ function bindModalEvents() {
     }
   );
 }
+
+
+
