@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking Confirmed — PG Finder</title>
+
+  <!-- Typography: Plus Jakarta Sans (Headings) & Inter (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Shared Global Stylesheet -->
+  <link rel="stylesheet" href="../css/style.css">
+
+  <!-- Confirmation Page Specific Stylesheet -->
+  <link rel="stylesheet" href="../css/confirmation.css">
+</head>
+<body>
+
+  <!-- ================= HEADER / NAVBAR ================= -->
+  <header class="header">
+    <nav class="navbar container" aria-label="Main Navigation">
+      <a href="index.html" class="logo">
+        <svg class="logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.5z"/>
+        </svg>
+        <span class="logo-text">PG Finder</span>
+      </a>
+
+      <button class="nav-toggle-btn" id="navToggleBtn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navMenu">
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+      </button>
+
+      <div class="nav-menu" id="navMenu">
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="listings.html" class="nav-link">Explore</a></li>
+          <li><a href="index.html#why-us" class="nav-link">About</a></li>
+          <li><a href="index.html#how-it-works" class="nav-link">How It Works</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <a href="login.html" class="btn btn-login">Login</a>
+          <a href="register.html" class="btn btn-register">Register</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="container confirmation-container">
+
+      <!-- ================= ERROR STATE ================= -->
+      <section class="confirmation-error-card" id="confirmationErrorState" role="alert" aria-live="polite">
+        <div class="error-circle-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+        </div>
+        <h1 class="error-title">Booking Information Not Found</h1>
+        <p class="error-message">We couldn't locate your recent booking details in this session. The data may have expired or been cleared.</p>
+        <div class="error-actions">
+          <a href="listings.html" class="btn btn-primary">Explore PGs</a>
+          <a href="index.html" class="btn btn-outline">Back to Home</a>
+        </div>
+      </section>
+
+      <!-- ================= MAIN CONFIRMATION CONTENT ================= -->
+      <div class="confirmation-content" id="confirmationContent">
+
+        <!-- Success Banner -->
+        <section class="success-banner-card">
+          <div class="success-circle-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+          <span class="booking-status-tag" id="displayBookingStatus">Status: Requested</span>
+          <h1 class="success-title">Booking Request Submitted!</h1>
+          <p class="success-subtitle">
+            Your booking request has been successfully recorded. This is a frontend demonstration, meaning no actual payments have been processed yet.
+          </p>
+
+          <div class="booking-ref-box">
+            <span class="ref-label">Booking ID</span>
+            <span class="ref-id" id="displayBookingId">PG000000</span>
+          </div>
+        </section>
+
+        <!-- What Happens Next Section -->
+        <section class="what-next-section">
+          <h2 class="what-next-title">What happens next?</h2>
+          <div class="steps-row">
+            <div class="step-box">
+              <div class="step-number">1</div>
+              <h4>Manager Review</h4>
+              <p>The property manager receives your request and verifies room availability.</p>
+            </div>
+            <div class="step-box">
+              <div class="step-number">2</div>
+              <h4>Direct Payment</h4>
+              <p>You pay the security deposit directly to the manager via secure payment link.</p>
+            </div>
+            <div class="step-box">
+              <div class="step-number">3</div>
+              <h4>Move-in</h4>
+              <p>Show your booking ID and college/work ID card upon arrival for key handover.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Two-Column Information Layout -->
+        <div class="confirmation-details-grid">
+
+          <!-- Left Column: Property & Payment Details -->
+          <div class="details-column-wrapper">
+            <article class="details-section-card">
+              <h2 class="card-section-title">Accommodation Details</h2>
+              <div class="property-highlight-box">
+                <h3 class="property-highlight-name" id="displayPropertyName">Loading...</h3>
+                <div class="property-highlight-meta">
+                  <span class="property-badge" id="displayPropertyType">PG</span>
+                  <span class="property-highlight-location" id="displayPropertyLocation">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                      <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                    <span>Loading...</span>
+                  </span>
+                </div>
+              </div>
+
+              <div class="info-list">
+                <div class="info-item">
+                  <span class="info-label">Selected Room</span>
+                  <span class="info-value text-bold" id="displayRoomType">Loading...</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="price-summary-card">
+              <h2 class="card-section-title">Price Summary</h2>
+              <div class="price-summary-rows">
+                <div class="price-line">
+                  <span>Monthly Rent</span>
+                  <span id="displayMonthlyRent">₹0</span>
+                </div>
+                <div class="price-line">
+                  <span>Security Deposit <small>(Refundable)</small></span>
+                  <span id="displaySecurityDeposit">₹0</span>
+                </div>
+                <div class="price-line total-highlight">
+                  <span>Total Initial Amount</span>
+                  <span class="total-amount-val text-primary" id="displayTotalAmount">₹0</span>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <!-- Right Column: Guest Information -->
+          <article class="details-section-card guest-details-card">
+            <h2 class="card-section-title">Guest Details</h2>
+            <div class="info-list">
+              <div class="info-item">
+                <span class="info-label">Full Name</span>
+                <span class="info-value text-bold" id="displayGuestName">—</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Email Address</span>
+                <span class="info-value" id="displayGuestEmail">—</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Phone Number</span>
+                <span class="info-value" id="displayGuestPhone">—</span>
+              </div>
+              <div class="info-item divider-top">
+                <span class="info-label">Move-in Date</span>
+                <span class="info-value text-bold" id="displayMoveInDate">—</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Occupants</span>
+                <span class="info-value" id="displayOccupants">1</span>
+              </div>
+              <div class="info-item full-width">
+                <span class="info-label">Special Request</span>
+                <span class="info-value" id="displaySpecialRequests">None specified</span>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- Navigation Action Buttons -->
+        <div class="confirmation-actions">
+          <a href="index.html" class="btn btn-outline">Back to Home</a>
+          <a href="listings.html" class="btn btn-outline">Explore More PGs</a>
+          <a href="bookings.html" class="btn btn-primary">View My Bookings</a>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div class="footer-brand">
+        <a href="index.html" class="logo footer-logo">
+          <svg class="logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.5z"/>
+          </svg>
+          <span class="logo-text">PG Finder</span>
+        </a>
+        <p class="footer-tagline">
+          India's trusted platform for verified, affordable student and professional housing.
+        </p>
+      </div>
+
+      <div class="footer-links-group">
+        <h4 class="footer-heading">Quick Links</h4>
+        <ul class="footer-nav">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="listings.html">Explore</a></li>
+          <li><a href="index.html#why-us">About</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-group">
+        <h4 class="footer-heading">Account</h4>
+        <ul class="footer-nav">
+          <li><a href="login.html">Login</a></li>
+          <li><a href="register.html">Register</a></li>
+          <li><a href="bookings.html">My Bookings</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p>© 2026 PG Finder. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/confirmation.js"></script>
+</body>
+</html>

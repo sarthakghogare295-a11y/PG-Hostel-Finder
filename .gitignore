@@ -1,0 +1,8 @@
+# Environment variables
+backend/.env
+
+# Node.js dependencies
+backend/node_modules/
+
+# VS Code settings
+.vscode/

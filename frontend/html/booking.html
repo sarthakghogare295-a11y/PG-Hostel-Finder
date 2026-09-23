@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Complete Your Booking — PG Finder</title>
+
+  <!-- Typography: Plus Jakarta Sans (Headings) & Inter (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Shared Global Stylesheet -->
+  <link rel="stylesheet" href="../css/style.css">
+
+  <!-- Booking Page Specific Stylesheet -->
+  <link rel="stylesheet" href="../css/booking.css">
+</head>
+<body>
+
+  <!-- ================= HEADER / NAVBAR ================= -->
+  <header class="header">
+    <nav class="navbar container" aria-label="Main Navigation">
+      <a href="index.html" class="logo">
+        <svg class="logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.5z"/>
+        </svg>
+        <span class="logo-text">PG Finder</span>
+      </a>
+
+      <button class="nav-toggle-btn" id="navToggleBtn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navMenu">
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+      </button>
+
+      <div class="nav-menu" id="navMenu">
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="listings.html" class="nav-link">Explore</a></li>
+          <li><a href="index.html#why-us" class="nav-link">About</a></li>
+          <li><a href="index.html#how-it-works" class="nav-link">How It Works</a></li>
+          <li><a href="index.html#testimonials" class="nav-link">Reviews</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <a href="login.html" class="btn btn-login">Login</a>
+          <a href="register.html" class="btn btn-register">Register</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ================= BREADCRUMB ================= -->
+    <nav class="breadcrumb-nav container" aria-label="Breadcrumb">
+      <ol class="breadcrumb-list">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-separator">/</li>
+        <li class="breadcrumb-item"><a href="listings.html">Explore</a></li>
+        <li class="breadcrumb-separator">/</li>
+        <li class="breadcrumb-item"><a href="javascript:void(0)" id="breadcrumbPropertyName">Property</a></li>
+        <li class="breadcrumb-separator">/</li>
+        <li class="breadcrumb-item active" aria-current="page">Booking</li>
+      </ol>
+    </nav>
+
+    <!-- ================= BOOKING CONTAINER ================= -->
+    <div class="container booking-container">
+
+      <!-- ERROR STATE (Hidden by default) -->
+      <section class="booking-error-state" id="bookingErrorState" role="alert" aria-live="assertive">
+        <div class="booking-error-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+        </div>
+        <h2 class="error-title">Booking Information Unavailable</h2>
+        <p class="error-subtitle">Please return to the property details page and select an available room again.</p>
+        <div class="error-actions">
+          <a href="listings.html" class="btn btn-primary">Back to Explore</a>
+        </div>
+      </section>
+
+      <!-- MAIN BOOKING CONTENT -->
+      <div class="booking-main-wrapper" id="bookingMainWrapper">
+        
+        <!-- PAGE HEADER -->
+        <header class="booking-page-header">
+          <h1 class="booking-page-title">Complete Your Booking</h1>
+          <p class="booking-page-subtitle">Reserve your preferred room by providing a few details.</p>
+        </header>
+
+        <div class="booking-layout-grid">
+
+          <!-- LEFT COLUMN: BOOKING & PRICE SUMMARY -->
+          <aside class="booking-summary-column" aria-label="Booking Summary Details">
+            
+            <!-- Booking Summary -->
+            <article class="summary-card">
+              <h2 class="summary-card-title">Booking Summary</h2>
+              
+              <div class="summary-details-list">
+                <div class="summary-item">
+                  <span class="summary-label">Property Name</span>
+                  <span class="summary-value text-bold" id="bookingPropertyName">Loading...</span>
+                </div>
+                <div class="summary-item">
+                  <span class="summary-label">Property Type</span>
+                  <span class="summary-value property-badge" id="bookingPropertyType">Loading...</span>
+                </div>
+                <div class="summary-item">
+                  <span class="summary-label">Location</span>
+                  <span class="summary-value location-text" id="bookingPropertyLocation">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <span>Loading...</span>
+                  </span>
+                </div>
+                <div class="summary-item divider-top">
+                  <span class="summary-label">Selected Room</span>
+                  <span class="summary-value text-bold text-primary" id="bookingRoomType">Loading...</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- Price Summary -->
+            <article class="price-summary-card">
+              <h2 class="summary-card-title">Price Summary</h2>
+              
+              <div class="price-summary-rows">
+                <div class="price-row">
+                  <span class="price-label">Monthly Rent</span>
+                  <span class="price-val" id="summaryRent">₹0</span>
+                </div>
+                <div class="price-row">
+                  <span class="price-label">Security Deposit <small>(Refundable)</small></span>
+                  <span class="price-val" id="summaryDeposit">₹0</span>
+                </div>
+                <div class="price-row total-row">
+                  <span class="price-label">Initial Amount</span>
+                  <span class="price-val text-primary total-amount-val" id="summaryTotal">₹0</span>
+                </div>
+              </div>
+              <p class="price-disclaimer">
+                * No payment is deducted now. Amounts are settled directly with the property manager at check-in.
+              </p>
+            </article>
+          </aside>
+
+          <!-- RIGHT COLUMN: GUEST INFORMATION FORM -->
+          <section class="booking-form-column" aria-label="Guest Information Form">
+            <article class="form-card">
+              <h2 class="form-card-title">Guest Information</h2>
+              
+              <form id="bookingSubmissionForm" novalidate>
+                
+                <!-- Full Name -->
+                <div class="form-field-group">
+                  <label for="guestFullName">Full Name <span class="required" aria-hidden="true">*</span></label>
+                  <input type="text" id="guestFullName" name="guestFullName" class="form-input" required autocomplete="name">
+                </div>
+
+                <!-- Email & Phone Grid -->
+                <div class="form-row-two-col">
+                  <div class="form-field-group">
+                    <label for="guestEmail">Email Address <span class="required" aria-hidden="true">*</span></label>
+                    <input type="email" id="guestEmail" name="guestEmail" class="form-input" required autocomplete="email">
+                  </div>
+
+                  <div class="form-field-group">
+                    <label for="guestPhone">Phone Number <span class="required" aria-hidden="true">*</span></label>
+                    <input type="tel" id="guestPhone" name="guestPhone" class="form-input" required autocomplete="tel" maxlength="10">
+                  </div>
+                </div>
+
+                <!-- Move-in Date & Occupants -->
+                <div class="form-row-two-col">
+                  <div class="form-field-group">
+                    <label for="moveInDate">Move-in Date <span class="required" aria-hidden="true">*</span></label>
+                    <input type="date" id="moveInDate" name="moveInDate" class="form-input" required>
+                  </div>
+
+                  <div class="form-field-group">
+                    <label for="occupantCount">Number of Occupants <span class="required" aria-hidden="true">*</span></label>
+                    <input type="number" id="occupantCount" name="occupantCount" class="form-input" min="1" max="4" value="1" required>
+                  </div>
+                </div>
+
+                <!-- Special Request -->
+                <div class="form-field-group">
+                  <label for="specialRequest">Special Request / Message <span class="optional">(Optional)</span></label>
+                  <textarea id="specialRequest" name="specialRequest" class="form-textarea" rows="3"></textarea>
+                </div>
+
+                <!-- Terms and Conditions -->
+                <div class="form-field-group checkbox-group">
+                  <label class="custom-terms-checkbox" for="termsCheckbox">
+                    <input type="checkbox" id="termsCheckbox" name="termsCheckbox" required>
+                    <span class="checkbox-visual" aria-hidden="true"></span>
+                    <span class="terms-text">
+                      I agree to the booking terms and conditions.
+                      <a href="javascript:void(0)" class="terms-link">View Terms</a>
+                    </span>
+                  </label>
+                </div>
+
+                <!-- Validation Message Area -->
+                <div class="form-message-area" id="formMessage" aria-live="polite" role="alert">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="12"/>
+                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                  </svg>
+                  <span id="formMessageText">Please resolve the errors to continue.</span>
+                </div>
+
+                <div class="form-action-wrap">
+                  <button type="submit" class="btn btn-primary btn-block btn-confirm-booking" id="confirmBookingBtn">
+                    Confirm Booking
+                  </button>
+                  <div class="security-reassurance">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    <span>Your data is encrypted and secure. We never share your personal information.</span>
+                  </div>
+                </div>
+
+              </form>
+            </article>
+          </section>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div class="footer-brand">
+        <a href="index.html" class="logo footer-logo">
+          <svg class="logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.5z"/>
+          </svg>
+          <span class="logo-text">PG Finder</span>
+        </a>
+        <p class="footer-tagline">
+          India's trusted platform for verified, affordable student and professional housing.
+        </p>
+      </div>
+
+      <div class="footer-links-group">
+        <h4 class="footer-heading">Quick Links</h4>
+        <ul class="footer-nav">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="listings.html">Explore PGs</a></li>
+          <li><a href="index.html#why-us">Why PG Finder</a></li>
+          <li><a href="index.html#how-it-works">How It Works</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-group">
+        <h4 class="footer-heading">Account</h4>
+        <ul class="footer-nav">
+          <li><a href="login.html">Login</a></li>
+          <li><a href="register.html">Register</a></li>
+          <li><a href="bookings.html">My Bookings</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-group">
+        <h4 class="footer-heading">Contact</h4>
+        <div class="footer-contact-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <span>support@pgfinder.in</span>
+        </div>
+        <div class="footer-contact-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span>+91 98765 43210</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p>© 2026 PG Finder. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/booking.js"></script>
+</body>
+</html>

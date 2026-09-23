@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Bookings — PG Finder</title>
+  <meta name="description" content="Manage your PG and hostel bookings in one place.">
+
+  <!-- Typography: Outfit (Headings) & DM Sans (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Shared Global Stylesheet -->
+  <link rel="stylesheet" href="../css/style.css">
+
+  <!-- Bookings Page Specific Stylesheet -->
+  <link rel="stylesheet" href="../css/bookings.css">
+</head>
+<body>
+
+  <!-- ================= AUTH GUARD OVERLAY ================= -->
+  <div class="auth-guard-overlay" id="authGuardOverlay" aria-hidden="true">
+    <div class="auth-guard-card">
+      <div class="auth-guard-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+      </div>
+      <h2>Authentication Required</h2>
+      <p>Please log in to access your bookings.</p>
+      <a href="login.html" class="btn btn-primary auth-guard-btn">Go to Login</a>
+      <a href="index.html" class="back-home-link">← Back to Home</a>
+    </div>
+  </div>
+
+  <!-- ================= HEADER / NAVBAR ================= -->
+  <header class="header">
+    <nav class="navbar container" aria-label="Main Navigation">
+      <a href="index.html" class="logo">
+        <svg class="logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.5z"/>
+        </svg>
+        <span class="logo-text">PG Finder</span>
+      </a>
+
+      <button class="nav-toggle-btn" id="navToggleBtn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navMenu">
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+      </button>
+
+      <div class="nav-menu" id="navMenu">
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="listings.html" class="nav-link">Explore</a></li>
+          <li><a href="bookings.html" class="nav-link active" aria-current="page">My Bookings</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <div class="nav-user-info" id="navUserInfo">
+            <span class="nav-user-avatar" id="navUserAvatar" aria-hidden="true"></span>
+            <span class="nav-user-name" id="navUserName"></span>
+          </div>
+          <button type="button" class="btn btn-logout" id="logoutBtnNav" aria-label="Logout">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+            Logout
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <main class="bookings-main" id="bookingsMain" style="display: none;">
+    
+    <!-- Page Header / Hero -->
+    <section class="bookings-page-header">
+      <div class="container">
+        <div class="header-content">
+          <div class="header-icon-wrap">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+          </div>
+          <div>
+            <h1 class="page-title">My Bookings</h1>
+            <p class="page-subtitle">Manage your PG and hostel bookings in one place.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Booking Summary Section -->
+    <section class="bookings-summary-section">
+      <div class="container">
+        <div class="summary-stats-grid">
+          <div class="summary-stat-card">
+            <span class="stat-value" id="statTotal">0</span>
+            <span class="stat-label">Total Bookings</span>
+          </div>
+          <div class="summary-stat-card stat-active">
+            <span class="stat-value" id="statActive">0</span>
+            <span class="stat-label">Active Bookings</span>
+          </div>
+          <div class="summary-stat-card stat-pending">
+            <span class="stat-value" id="statPending">0</span>
+            <span class="stat-label">Pending Bookings</span>
+          </div>
+          <div class="summary-stat-card stat-completed">
+            <span class="stat-value" id="statCompleted">0</span>
+            <span class="stat-label">Completed Bookings</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bookings List Section -->
+    <section class="bookings-list-section">
+      <div class="container">
+        <!-- Rendered by JS -->
+        <div class="bookings-grid" id="bookingsGrid"></div>
+
+        <!-- Empty State (Hidden by default) -->
+        <div class="empty-state-card" id="emptyState" style="display: none;">
+          <div class="empty-state-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+              <line x1="9" y1="15" x2="15" y2="15"/>
+            </svg>
+          </div>
+          <h2 class="empty-title">No bookings yet</h2>
+          <p class="empty-message">Explore PGs and hostels to find a place that works for you.</p>
+          <a href="listings.html" class="btn btn-primary btn-explore">Explore PGs</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= CUSTOM CONFIRM MODAL ================= -->
+  <div class="modal-overlay" id="cancelModalOverlay" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-icon alert-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+      </div>
+      <h3 class="modal-title">Cancel Booking?</h3>
+      <p class="modal-text">Are you sure you want to cancel this booking? This action cannot be undone.</p>
+      <div class="modal-actions">
+        <button class="btn btn-outline" id="closeModalBtn">Keep Booking</button>
+        <button class="btn btn-danger" id="confirmCancelBtn">Yes, Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    <div class="container footer-bottom-inner" style="border-top: none; padding-bottom: 24px; text-align: center;">
+      <p>© 2026 PG Finder. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../js/bookings.js"></script>
+</body>
+</html>

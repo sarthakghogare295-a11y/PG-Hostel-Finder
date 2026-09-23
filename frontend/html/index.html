@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PG Finder — Find a Place You'll Call Home</title>
+  <meta name="description" content="PG Finder helps students and professionals discover verified PGs and hostels near top colleges and workplaces in Pune. Zero brokerage, transparent pricing, instant booking.">
+
+  <!-- Typography: Outfit (Headings) & DM Sans (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Shared Stylesheet -->
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <!-- ================= HEADER / NAVBAR ================= -->
+  <header class="header">
+    <nav class="navbar container" aria-label="Main Navigation">
+      <a href="index.html" class="logo">
+        <svg class="logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.5z"/>
+        </svg>
+        <span class="logo-text">PG Finder</span>
+      </a>
+
+      <button class="nav-toggle-btn" id="navToggleBtn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navMenu">
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+      </button>
+
+      <div class="nav-menu" id="navMenu">
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link active" aria-current="page">Home</a></li>
+          <li><a href="listings.html" class="nav-link">Explore</a></li>
+          <li><a href="#why-us" class="nav-link">About</a></li>
+          <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+          <li><a href="#testimonials" class="nav-link">Reviews</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <a href="login.html" class="btn btn-login">Login</a>
+          <a href="register.html" class="btn btn-register">Register</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ================= HERO & SEARCH ================= -->
+    <section class="hero-section">
+      <div class="container hero-container">
+        <div class="hero-content">
+          <span class="badge">🏠 Trusted Student & Professional Housing</span>
+          <h1 class="hero-title">Find a Place You'll Truly Call Home</h1>
+          <p class="hero-subtitle">
+            Skip the stress. Discover verified, fully-furnished PGs and hostels that match your budget, commute, and lifestyle — with zero brokerage, guaranteed.
+          </p>
+        </div>
+
+        <div class="search-panel-wrapper">
+          <form class="search-panel" id="homeSearchForm">
+            <div class="form-group">
+              <label for="searchLocation">Location</label>
+              <div class="input-with-icon">
+                <svg class="field-icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                <input type="text" id="searchLocation" name="location" placeholder="Enter city, locality, or landmark">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="searchBudget">Max Budget</label>
+              <div class="input-with-icon">
+                <span class="field-currency-symbol">₹</span>
+                <select id="searchBudget" name="budget">
+                  <option value="" selected>Any Budget</option>
+                  <option value="5000">Up to ₹5,000</option>
+                  <option value="7000">Up to ₹7,000</option>
+                  <option value="10000">Up to ₹10,000</option>
+                  <option value="15000">Up to ₹15,000</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="searchRoomType">Room Type</label>
+              <div class="input-with-icon">
+                <svg class="field-icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M2 4v16"/>
+                  <path d="M2 8h18a2 2 0 0 1 2 2v10"/>
+                  <path d="M2 17h20"/>
+                  <path d="M6 8v9"/>
+                </svg>
+                <select id="searchRoomType" name="roomType">
+                  <option value="" selected>Any Sharing</option>
+                  <option value="single">Single Room</option>
+                  <option value="double">Double Sharing</option>
+                  <option value="triple">Triple Sharing</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group form-action">
+              <button type="submit" class="btn btn-primary btn-search">Search PGs</button>
+            </div>
+          </form>
+
+          <div class="near-me-container">
+            <button type="button" class="btn-near-me" id="geoBtn">
+              <svg class="near-me-icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"/>
+                <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+              </svg>
+              <span id="geoBtnText">Find PGs Near Me</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= STATS COUNTER STRIP ================= -->
+    <section class="stats-strip scroll-reveal" aria-label="Platform statistics">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span class="stat-number" data-target="2500">0</span>
+            <span class="stat-label">Happy Residents</span>
+          </div>
+          <div class="stat-divider" aria-hidden="true"></div>
+          <div class="stat-item">
+            <span class="stat-number" data-target="150">0</span>
+            <span class="stat-label">Verified PGs & Hostels</span>
+          </div>
+          <div class="stat-divider" aria-hidden="true"></div>
+          <div class="stat-item">
+            <span class="stat-number" data-target="12">0</span>
+            <span class="stat-label">Neighborhoods Covered</span>
+          </div>
+          <div class="stat-divider" aria-hidden="true"></div>
+          <div class="stat-item">
+            <span class="stat-number" data-target="4.8">0</span>
+            <span class="stat-label">Average Rating ★</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= POPULAR LOCATIONS ================= -->
+    <section class="section section-light" id="locations">
+      <div class="container">
+        <div class="section-header scroll-reveal">
+          <span class="section-eyebrow">Top Neighborhoods</span>
+          <h2 class="section-title">Popular Locations</h2>
+          <p class="section-subtitle">Browse student-friendly localities near top colleges, tech parks, libraries, and metro stations across Pune.</p>
+        </div>
+
+        <div class="locations-grid">
+          <button type="button" class="location-card scroll-reveal scroll-reveal-delay-1" data-location="Kothrud, Pune">
+            <div class="location-icon-wrapper">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div class="location-info">
+              <h4>Kothrud</h4>
+              <p>40+ Verified Stays</p>
+            </div>
+          </button>
+
+          <button type="button" class="location-card scroll-reveal scroll-reveal-delay-2" data-location="Shivajinagar, Pune">
+            <div class="location-icon-wrapper">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div class="location-info">
+              <h4>Shivajinagar</h4>
+              <p>28+ Verified Stays</p>
+            </div>
+          </button>
+
+          <button type="button" class="location-card scroll-reveal scroll-reveal-delay-3" data-location="Hinjawadi, Pune">
+            <div class="location-icon-wrapper">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div class="location-info">
+              <h4>Hinjawadi</h4>
+              <p>55+ Verified Stays</p>
+            </div>
+          </button>
+
+          <button type="button" class="location-card scroll-reveal scroll-reveal-delay-1" data-location="Viman Nagar, Pune">
+            <div class="location-icon-wrapper">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div class="location-info">
+              <h4>Viman Nagar</h4>
+              <p>32+ Verified Stays</p>
+            </div>
+          </button>
+
+          <button type="button" class="location-card scroll-reveal scroll-reveal-delay-2" data-location="Wakad, Pune">
+            <div class="location-icon-wrapper">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div class="location-info">
+              <h4>Wakad</h4>
+              <p>38+ Verified Stays</p>
+            </div>
+          </button>
+
+          <button type="button" class="location-card scroll-reveal scroll-reveal-delay-3" data-location="Hadapsar, Pune">
+            <div class="location-icon-wrapper">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div class="location-info">
+              <h4>Hadapsar</h4>
+              <p>22+ Verified Stays</p>
+            </div>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= FEATURED PGS ================= -->
+    <section class="section" id="featured">
+      <div class="container">
+        <div class="section-header scroll-reveal">
+          <span class="section-eyebrow">Featured Stays</span>
+          <h2 class="section-title">Handpicked Accommodations</h2>
+          <p class="section-subtitle">Carefully reviewed stays with verified pricing, real photos, and guaranteed amenities — ready for move-in.</p>
+        </div>
+
+        <div class="property-grid" id="featuredGrid">
+          <!-- Property Card 1 -->
+          <article class="property-card scroll-reveal scroll-reveal-delay-1" data-property-id="1">
+            <div class="property-media">
+              <img src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=700&q=80" alt="Campus Stay PG — well-furnished double sharing room with natural lighting" class="property-image">
+              <span class="status-badge available">Available</span>
+              <span class="room-type-tag">Double Sharing</span>
+            </div>
+            <div class="property-details">
+              <h3 class="property-name">Campus Stay PG</h3>
+              <p class="property-location">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                Shivajinagar, Pune
+              </p>
+              <div class="property-features-inline">
+                Wi-Fi <span>•</span> Food <span>•</span> Housekeeping
+              </div>
+              <div class="property-card-bottom">
+                <div class="property-price">
+                  <span class="price-value">₹6,500</span><span class="price-period">/mo</span>
+                </div>
+                <a href="details.html?id=1" class="btn btn-secondary card-btn">View Details</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Property Card 2 -->
+          <article class="property-card scroll-reveal scroll-reveal-delay-2" data-property-id="2">
+            <div class="property-media">
+              <img src="https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=700&q=80" alt="Student Nest Hostel — clean single room with study desk and shelving" class="property-image">
+              <span class="status-badge available">Available</span>
+              <span class="room-type-tag">Single Room</span>
+            </div>
+            <div class="property-details">
+              <h3 class="property-name">Student Nest Hostel</h3>
+              <p class="property-location">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                Deccan, Pune
+              </p>
+              <div class="property-features-inline">
+                Wi-Fi <span>•</span> Laundry <span>•</span> CCTV
+              </div>
+              <div class="property-card-bottom">
+                <div class="property-price">
+                  <span class="price-value">₹7,000</span><span class="price-period">/mo</span>
+                </div>
+                <a href="details.html?id=2" class="btn btn-secondary card-btn">View Details</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Property Card 3 -->
+          <article class="property-card scroll-reveal scroll-reveal-delay-3" data-property-id="3">
+            <div class="property-media">
+              <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=700&q=80" alt="Urban Living PG — spacious double room with modern furniture" class="property-image">
+              <span class="status-badge few-left">Only 2 Beds Left</span>
+              <span class="room-type-tag">Double Sharing</span>
+            </div>
+            <div class="property-details">
+              <h3 class="property-name">Urban Living PG</h3>
+              <p class="property-location">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                Kothrud, Pune
+              </p>
+              <div class="property-features-inline">
+                Power Backup <span>•</span> Food <span>•</span> Parking
+              </div>
+              <div class="property-card-bottom">
+                <div class="property-price">
+                  <span class="price-value">₹6,000</span><span class="price-period">/mo</span>
+                </div>
+                <a href="details.html?id=3" class="btn btn-secondary card-btn">View Details</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Property Card 4 -->
+          <article class="property-card scroll-reveal scroll-reveal-delay-1" data-property-id="4">
+            <div class="property-media">
+              <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=700&q=80" alt="Green View Hostel — bright triple sharing room with garden views" class="property-image">
+              <span class="status-badge available">Available</span>
+              <span class="room-type-tag">Triple Sharing</span>
+            </div>
+            <div class="property-details">
+              <h3 class="property-name">Green View Hostel</h3>
+              <p class="property-location">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                Wakad, Pune
+              </p>
+              <div class="property-features-inline">
+                Wi-Fi <span>•</span> Security <span>•</span> Laundry
+              </div>
+              <div class="property-card-bottom">
+                <div class="property-price">
+                  <span class="price-value">₹5,500</span><span class="price-period">/mo</span>
+                </div>
+                <a href="details.html?id=4" class="btn btn-secondary card-btn">View Details</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Property Card 5 (NEW) -->
+          <article class="property-card scroll-reveal scroll-reveal-delay-2" data-property-id="5">
+            <div class="property-media">
+              <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=700&q=80" alt="Elite Scholar PG — premium single room with attached bathroom" class="property-image">
+              <span class="status-badge available">Available</span>
+              <span class="room-type-tag">Single Room</span>
+            </div>
+            <div class="property-details">
+              <h3 class="property-name">Elite Scholar PG</h3>
+              <p class="property-location">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                Viman Nagar, Pune
+              </p>
+              <div class="property-features-inline">
+                AC <span>•</span> Food <span>•</span> Study Room
+              </div>
+              <div class="property-card-bottom">
+                <div class="property-price">
+                  <span class="price-value">₹12,000</span><span class="price-period">/mo</span>
+                </div>
+                <a href="details.html?id=5" class="btn btn-secondary card-btn">View Details</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Property Card 6 (NEW) -->
+          <article class="property-card scroll-reveal scroll-reveal-delay-3" data-property-id="6">
+            <div class="property-media">
+              <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=700&q=80" alt="Harmony Student House — budget-friendly triple sharing hostel" class="property-image">
+              <span class="status-badge available">Available</span>
+              <span class="room-type-tag">Triple Sharing</span>
+            </div>
+            <div class="property-details">
+              <h3 class="property-name">Harmony Student House</h3>
+              <p class="property-location">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                Hinjawadi, Pune
+              </p>
+              <div class="property-features-inline">
+                Wi-Fi <span>•</span> Gym <span>•</span> Power Backup
+              </div>
+              <div class="property-card-bottom">
+                <div class="property-price">
+                  <span class="price-value">₹5,200</span><span class="price-period">/mo</span>
+                </div>
+                <a href="details.html?id=6" class="btn btn-secondary card-btn">View Details</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= POPULAR AMENITIES ================= -->
+    <section class="section section-light" id="amenities">
+      <div class="container">
+        <div class="section-header scroll-reveal">
+          <span class="section-eyebrow">What's Included</span>
+          <h2 class="section-title">Amenities That Matter</h2>
+          <p class="section-subtitle">Every verified stay on PG Finder meets strict comfort and safety standards. Here's what you can expect.</p>
+        </div>
+
+        <div class="facilities-grid">
+          <div class="facility-card scroll-reveal scroll-reveal-delay-1">
+            <div class="facility-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+            </div>
+            <h3 class="facility-title">High-Speed Wi-Fi</h3>
+            <p class="facility-desc">Unlimited broadband with dedicated bandwidth for online classes, research, and seamless video calls.</p>
+          </div>
+
+          <div class="facility-card scroll-reveal scroll-reveal-delay-2">
+            <div class="facility-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+            </div>
+            <h3 class="facility-title">Home-Style Meals</h3>
+            <p class="facility-desc">Nutritious breakfast, lunch, and dinner prepared daily in hygienic kitchens with regional cuisine options.</p>
+          </div>
+
+          <div class="facility-card scroll-reveal scroll-reveal-delay-3">
+            <div class="facility-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="12" cy="13" r="5"/><path d="M12 8v1"/></svg>
+            </div>
+            <h3 class="facility-title">Laundry Services</h3>
+            <p class="facility-desc">On-premise washing machines with scheduled cleaning routines so you can focus on what matters.</p>
+          </div>
+
+          <div class="facility-card scroll-reveal scroll-reveal-delay-1">
+            <div class="facility-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h3 class="facility-title">24/7 CCTV & Security</h3>
+            <p class="facility-desc">Round-the-clock surveillance with biometric or card-based entry for maximum safety and peace of mind.</p>
+          </div>
+
+          <div class="facility-card scroll-reveal scroll-reveal-delay-2">
+            <div class="facility-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg>
+            </div>
+            <h3 class="facility-title">Vehicle Parking</h3>
+            <p class="facility-desc">Dedicated, well-lit parking bays for two-wheelers and bicycles with CCTV coverage.</p>
+          </div>
+
+          <div class="facility-card scroll-reveal scroll-reveal-delay-3">
+            <div class="facility-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            </div>
+            <h3 class="facility-title">Power Backup</h3>
+            <p class="facility-desc">Uninterrupted power through inverter and DG backup during outages — your study sessions never stop.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= HOW IT WORKS ================= -->
+    <section class="section" id="how-it-works">
+      <div class="container">
+        <div class="section-header scroll-reveal">
+          <span class="section-eyebrow">Simple 4-Step Process</span>
+          <h2 class="section-title">How It Works</h2>
+          <p class="section-subtitle">From first search to moving in, we've streamlined every step so you can find your room in under 10 minutes.</p>
+        </div>
+
+        <div class="steps-grid">
+          <div class="step-card scroll-reveal scroll-reveal-delay-1">
+            <div class="step-badge">01</div>
+            <h3 class="step-title">Search</h3>
+            <p class="step-desc">Enter your target neighborhood, monthly budget, and preferred sharing capacity to see matching stays instantly.</p>
+          </div>
+
+          <div class="step-card scroll-reveal scroll-reveal-delay-2">
+            <div class="step-badge">02</div>
+            <h3 class="step-title">Compare</h3>
+            <p class="step-desc">Review transparent pricing, real interior photos, included amenities, and meal plans side-by-side.</p>
+          </div>
+
+          <div class="step-card scroll-reveal scroll-reveal-delay-3">
+            <div class="step-badge">03</div>
+            <h3 class="step-title">Choose</h3>
+            <p class="step-desc">Select the verified property and exact bed configuration that fits your requirements and lifestyle.</p>
+          </div>
+
+          <div class="step-card scroll-reveal scroll-reveal-delay-4">
+            <div class="step-badge">04</div>
+            <h3 class="step-title">Move In</h3>
+            <p class="step-desc">Submit your booking inquiry online, coordinate check-in with the manager, and settle into your new home.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TESTIMONIALS ================= -->
+    <section class="section section-light" id="testimonials">
+      <div class="container">
+        <div class="section-header scroll-reveal">
+          <span class="section-eyebrow">Resident Reviews</span>
+          <h2 class="section-title">What Our Residents Say</h2>
+          <p class="section-subtitle">Real experiences from students and working professionals who found their ideal stay through PG Finder.</p>
+        </div>
+
+        <div class="testimonials-grid">
+          <div class="testimonial-card scroll-reveal scroll-reveal-delay-1">
+            <div class="testimonial-stars" aria-label="5 out of 5 stars">
+              <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <p class="testimonial-text">I moved to Pune for my MBA and was overwhelmed by the number of PG options. PG Finder made it incredibly simple — I found a verified stay near my college within a day. The photos were accurate and the rent was exactly as listed.</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">AK</div>
+              <div class="testimonial-author-info">
+                <h4>Ananya Kulkarni</h4>
+                <p>MBA Student, Symbiosis</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card scroll-reveal scroll-reveal-delay-2">
+            <div class="testimonial-stars" aria-label="5 out of 5 stars">
+              <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <p class="testimonial-text">As an IT professional working in Hinjawadi, I needed something close to my office with good food and Wi-Fi. PG Finder's filters helped me compare three options side-by-side, and I booked the same evening. No broker fees, no surprises.</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">RM</div>
+              <div class="testimonial-author-info">
+                <h4>Rahul Mehta</h4>
+                <p>Software Developer, Infosys</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card scroll-reveal scroll-reveal-delay-3">
+            <div class="testimonial-stars" aria-label="4 out of 5 stars">
+              <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor" style="opacity: 0.25"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <p class="testimonial-text">My parents were worried about safety when I moved to Pune for engineering. PG Finder's verified listings with CCTV and security details gave them complete peace of mind. I love my stay at Kothrud — feels like a second home.</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">SP</div>
+              <div class="testimonial-author-info">
+                <h4>Sneha Patil</h4>
+                <p>B.Tech Student, COEP</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= WHY CHOOSE US ================= -->
+    <section class="section" id="why-us">
+      <div class="container">
+        <div class="section-header scroll-reveal">
+          <span class="section-eyebrow">The PG Finder Advantage</span>
+          <h2 class="section-title">Why 2,500+ Residents Trust Us</h2>
+          <p class="section-subtitle">Built to eliminate misleading listings, surprise brokerages, and unverified properties — so you book with complete confidence.</p>
+        </div>
+
+        <div class="benefits-grid">
+          <div class="benefit-card scroll-reveal scroll-reveal-delay-1">
+            <div class="benefit-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </div>
+            <h3 class="benefit-title">Smart Search Filters</h3>
+            <p class="benefit-desc">Narrow hundreds of properties by campus proximity, budget range, room type, and specific amenities within seconds.</p>
+          </div>
+
+          <div class="benefit-card scroll-reveal scroll-reveal-delay-2">
+            <div class="benefit-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            </div>
+            <h3 class="benefit-title">100% Transparent Pricing</h3>
+            <p class="benefit-desc">What you see is what you pay. Accurate rent quotes, zero hidden brokerage fees, and verified interior photographs.</p>
+          </div>
+
+          <div class="benefit-card scroll-reveal scroll-reveal-delay-3">
+            <div class="benefit-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <h3 class="benefit-title">Real-Time Availability</h3>
+            <p class="benefit-desc">Check live bed availability before visiting. No more wasted trips to already-full properties.</p>
+          </div>
+
+          <div class="benefit-card scroll-reveal scroll-reveal-delay-4">
+            <div class="benefit-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h3 class="benefit-title">Direct Owner Contact</h3>
+            <p class="benefit-desc">Connect directly with verified property managers — no middlemen, no commission, just swift and secure confirmations.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TRUST STRIP ================= -->
+    <section class="trust-strip scroll-reveal" aria-label="Trusted by students from">
+      <div class="container">
+        <div class="trust-strip-header">
+          <p>Trusted by students & professionals from</p>
+        </div>
+        <div class="trust-logos">
+          <span class="trust-logo-item">
+            <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            Symbiosis University
+          </span>
+          <span class="trust-logo-item">
+            <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            COEP Technological University
+          </span>
+          <span class="trust-logo-item">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            Infosys Hinjawadi
+          </span>
+          <span class="trust-logo-item">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            TCS Hinjawadi
+          </span>
+          <span class="trust-logo-item">
+            <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            MIT Pune
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CALL TO ACTION ================= -->
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-box scroll-reveal">
+          <h2 class="cta-title">Ready to Find Your Perfect Stay?</h2>
+          <p class="cta-text">Join 2,500+ students and professionals who found their ideal PG or hostel. Start exploring verified accommodations today — it only takes a minute.</p>
+          <a href="listings.html" class="btn btn-cta">Explore All PGs & Hostels</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div class="footer-brand">
+        <a href="index.html" class="logo footer-logo">
+          <svg class="logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.5z"/>
+          </svg>
+          <span class="logo-text">PG Finder</span>
+        </a>
+        <p class="footer-tagline">
+          India's trusted platform for verified, affordable student and professional housing. Find your next home with confidence.
+        </p>
+        <div class="footer-social-links">
+          <a href="#" class="footer-social-link" aria-label="Twitter">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+          </a>
+          <a href="#" class="footer-social-link" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="#" class="footer-social-link" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="#" class="footer-social-link" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.43z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-links-group">
+        <h4 class="footer-heading">Quick Links</h4>
+        <ul class="footer-nav">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="listings.html">Explore PGs</a></li>
+          <li><a href="#why-us">Why PG Finder</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="#testimonials">Reviews</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-group">
+        <h4 class="footer-heading">Account</h4>
+        <ul class="footer-nav">
+          <li><a href="login.html">Login</a></li>
+          <li><a href="register.html">Register</a></li>
+          <li><a href="bookings.html">My Bookings</a></li>
+          <li><a href="favorites.html">Saved PGs</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-group">
+        <h4 class="footer-heading">Contact Us</h4>
+        <div class="footer-contact-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <span>support@pgfinder.in</span>
+        </div>
+        <div class="footer-contact-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span>+91 98765 43210</span>
+        </div>
+        <div class="footer-contact-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>Pune, Maharashtra, India</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p>© 2026 PG Finder. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Refund Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

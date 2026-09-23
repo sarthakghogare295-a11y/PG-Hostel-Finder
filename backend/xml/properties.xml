@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<properties>
+
+    <property>
+        <name>Campus Stay PG</name>
+        <location>Shivajinagar, Pune</location>
+        <type>PG</type>
+
+        <facilities>
+            <facility>Wi-Fi</facility>
+            <facility>Food</facility>
+            <facility>Laundry</facility>
+            <facility>CCTV</facility>
+        </facilities>
+
+        <rules>
+            <rule>No smoking</rule>
+            <rule>Maintain cleanliness</rule>
+            <rule>Visitors allowed until 10 PM</rule>
+        </rules>
+    </property>
+
+    <property>
+        <name>Green View Hostel</name>
+        <location>Kothrud, Pune</location>
+        <type>Hostel</type>
+
+        <facilities>
+            <facility>Wi-Fi</facility>
+            <facility>Parking</facility>
+            <facility>Security</facility>
+            <facility>Study Room</facility>
+        </facilities>
+
+        <rules>
+            <rule>No smoking</rule>
+            <rule>Maintain cleanliness</rule>
+            <rule>Entry before 11 PM</rule>
+        </rules>
+    </property>
+
+    <property>
+        <name>Student Comfort PG</name>
+        <location>Wakad, Pune</location>
+        <type>PG</type>
+
+        <facilities>
+            <facility>Wi-Fi</facility>
+            <facility>Food</facility>
+            <facility>Parking</facility>
+            <facility>CCTV</facility>
+        </facilities>
+
+        <rules>
+            <rule>No smoking</rule>
+            <rule>No loud music</rule>
+            <rule>Maintain cleanliness</rule>
+        </rules>
+    </property>
+
+    <property>
+        <name>City Nest Hostel</name>
+        <location>Pimpri, Pune</location>
+        <type>Hostel</type>
+
+        <facilities>
+            <facility>Wi-Fi</facility>
+            <facility>Laundry</facility>
+            <facility>Security</facility>
+            <facility>Common Room</facility>
+        </facilities>
+
+        <rules>
+            <rule>No smoking</rule>
+            <rule>Visitors allowed until 9 PM</rule>
+            <rule>Maintain cleanliness</rule>
+        </rules>
+    </property>
+
+</properties>

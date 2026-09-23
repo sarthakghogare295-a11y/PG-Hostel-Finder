@@ -1,0 +1,471 @@
+/* ==========================================================
+   BOOKING PAGE SPECIFIC STYLES (booking.css)
+   ========================================================== */
+
+/* 1. Breadcrumb Styling */
+.breadcrumb-nav {
+  padding: 22px 0 10px;
+}
+
+.breadcrumb-list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.breadcrumb-item a {
+  color: var(--text-muted);
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.breadcrumb-item a:hover {
+  color: var(--primary);
+}
+
+.breadcrumb-separator {
+  color: var(--border-color);
+  user-select: none;
+}
+
+.breadcrumb-item.active {
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+/* 2. Page Container & Headers */
+.booking-container {
+  padding-top: 12px;
+  padding-bottom: 88px;
+}
+
+.booking-page-header {
+  margin-bottom: 32px;
+}
+
+.booking-page-title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 8px;
+  color: var(--text-main);
+}
+
+.booking-page-subtitle {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+}
+
+/* 3. Error State */
+.booking-error-state {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 88px 24px;
+  background: var(--bg-white);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  margin: 32px 0;
+}
+
+.booking-error-state.visible {
+  display: flex;
+}
+
+.booking-error-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: var(--badge-amber-bg);
+  color: var(--badge-amber-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 22px;
+}
+
+.error-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+  letter-spacing: -0.02em;
+}
+
+.error-subtitle {
+  color: var(--text-muted);
+  margin-bottom: 26px;
+  max-width: 480px;
+  line-height: 1.65;
+}
+
+/* 4. Two-Column Layout */
+.booking-layout-grid {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 36px;
+  align-items: start;
+}
+
+/* 5. Summary Column (Left) */
+.summary-card,
+.price-summary-card {
+  background: var(--bg-white);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 28px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 24px;
+}
+
+.summary-card-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-main);
+}
+
+.summary-details-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-size: 0.925rem;
+}
+
+.summary-item.divider-top {
+  padding-top: 16px;
+  border-top: 1px dashed var(--border-color);
+  margin-top: 4px;
+}
+
+.summary-label {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.summary-value {
+  color: var(--text-main);
+  text-align: right;
+  max-width: 60%;
+}
+
+.text-bold {
+  font-weight: 700;
+}
+
+.text-primary {
+  color: var(--primary);
+}
+
+.property-badge {
+  background: linear-gradient(135deg, var(--bg-subtle) 0%, var(--bg-light) 100%);
+  border: 1px solid var(--border-color);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+}
+
+.location-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.location-text svg {
+  stroke: var(--primary);
+}
+
+/* Price Summary Formatting */
+.price-summary-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+  color: var(--text-body);
+  font-weight: 500;
+}
+
+.price-row small {
+  color: var(--text-muted);
+}
+
+.price-row.total-row {
+  margin-top: 8px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-subtle);
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.total-amount-val {
+  font-family: var(--font-heading);
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.price-disclaimer {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  text-align: center;
+  background-color: var(--bg-light);
+  padding: 12px;
+  border-radius: var(--radius-sm);
+}
+
+/* 6. Form Column (Right) */
+.form-card {
+  background: var(--bg-white);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 32px;
+  box-shadow: var(--shadow-sm);
+}
+
+.form-card-title {
+  font-size: 1.45rem;
+  font-weight: 800;
+  margin-bottom: 24px;
+  color: var(--text-main);
+  letter-spacing: -0.01em;
+}
+
+.form-row-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.form-field-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.form-field-group label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 8px;
+}
+
+.form-field-group label .required {
+  color: #dc2626;
+  margin-left: 2px;
+}
+
+.form-field-group label .optional {
+  color: var(--text-light);
+  font-weight: 400;
+  font-size: 0.8rem;
+  margin-left: 4px;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  border: 1.5px solid var(--border-color);
+  background-color: var(--bg-light);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text-main);
+  outline: none;
+  transition: var(--transition);
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  border-color: var(--primary);
+  background-color: var(--bg-white);
+  box-shadow: 0 0 0 3px var(--primary-border);
+}
+
+/* Input Error States */
+.form-input.input-error,
+.form-textarea.input-error {
+  border-color: #ef4444;
+  background-color: #fef2f2;
+}
+
+.form-input.input-error:focus,
+.form-textarea.input-error:focus {
+  box-shadow: 0 0 0 3px #fecaca;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+/* Checkbox Alignment */
+.checkbox-group {
+  margin-top: 8px;
+  margin-bottom: 24px;
+}
+
+.custom-terms-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.custom-terms-checkbox input[type="checkbox"] {
+  display: none;
+}
+
+.checkbox-visual {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--bg-light);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+  flex-shrink: 0;
+  transition: var(--transition);
+}
+
+.custom-terms-checkbox input[type="checkbox"]:checked + .checkbox-visual {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.custom-terms-checkbox input[type="checkbox"]:checked + .checkbox-visual::after {
+  content: "";
+  width: 5px;
+  height: 9px;
+  border: solid #ffffff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  margin-bottom: 2px;
+}
+
+.terms-text {
+  font-size: 0.875rem;
+  color: var(--text-body);
+  line-height: 1.55;
+}
+
+.terms-link {
+  color: var(--primary);
+  font-weight: 600;
+  margin-left: 4px;
+}
+
+.terms-link:hover {
+  text-decoration: underline;
+}
+
+/* Validation Message Banner */
+.form-message-area {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  background-color: #fef2f2;
+  border: 1.5px solid #fecaca;
+  color: #b91c1c;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+.form-message-area.visible {
+  display: flex;
+}
+
+.btn-confirm-booking {
+  height: 50px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.security-reassurance {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 14px;
+  padding: 10px 14px;
+  background-color: var(--badge-green-bg);
+  border: 1px solid #bbf7d0;
+  border-radius: var(--radius-sm);
+}
+
+.security-reassurance svg {
+  stroke: var(--badge-green-text);
+  flex-shrink: 0;
+}
+
+.security-reassurance span {
+  font-size: 0.78rem;
+  color: var(--badge-green-text);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* ==========================================================
+   7. RESPONSIVE BREAKPOINTS
+   ========================================================== */
+@media (max-width: 1024px) {
+  .booking-layout-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .booking-summary-column {
+    order: 2;
+  }
+
+  .booking-form-column {
+    order: 1;
+  }
+}
+
+@media (max-width: 640px) {
+  .booking-page-title {
+    font-size: 1.85rem;
+  }
+
+  .form-row-two-col {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .form-card,
+  .summary-card,
+  .price-summary-card {
+    padding: 24px 20px;
+  }
+}
