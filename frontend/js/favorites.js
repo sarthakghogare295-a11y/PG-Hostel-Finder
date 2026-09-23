@@ -146,7 +146,7 @@ async function loadFavorites() {
 
   try {
     const response = await fetch(
-      "http://localhost:5000/api/favorites",
+      "https://pg-hostel-finder-yevr.onrender.com/api/favorites",
       {
         method: "GET",
         headers: {
@@ -214,7 +214,7 @@ async function removeFavorite(propertyId) {
 
   try {
     const response = await fetch(
-      `http://localhost:5000/api/favorites/${propertyId}`,
+      `https://pg-hostel-finder-yevr.onrender.com/api/favorites/${propertyId}`,
       {
         method: "DELETE",
         headers: {

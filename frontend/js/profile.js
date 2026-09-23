@@ -202,7 +202,7 @@ function initProfileForm(currentUser) {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/users/me", {
+      const response = await fetch("https://pg-hostel-finder-yevr.onrender.com/api/users/me", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -339,7 +339,7 @@ function initPasswordForm(currentUser) {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/users/change-password",
+        "https://pg-hostel-finder-yevr.onrender.com/api/users/change-password",
         {
           method: "PUT",
           headers: {

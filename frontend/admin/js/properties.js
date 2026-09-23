@@ -14,7 +14,7 @@
  * DELETE /api/rooms/:id
  */
 
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = "https://pg-hostel-finder-yevr.onrender.com/api";
 
 let propertiesStore = [];
 let deleteTargetId = null;

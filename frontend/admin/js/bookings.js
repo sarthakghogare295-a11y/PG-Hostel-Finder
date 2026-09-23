@@ -11,7 +11,7 @@
  * Real status transitions and data retrieval will be handled via secure endpoints.
  */
 
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = "https://pg-hostel-finder-yevr.onrender.com/api";
 
 let bookingsData = [];
 

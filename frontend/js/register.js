@@ -240,7 +240,7 @@ function clearErrors() {
 
 async function processRegistration(name, email, mobile, password) {
   try {
-    const response = await fetch("http://localhost:5000/api/auth/register", {
+    const response = await fetch("https://pg-hostel-finder-yevr.onrender.com/api/auth/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

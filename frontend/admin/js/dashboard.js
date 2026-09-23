@@ -3,7 +3,7 @@
  * Backend + MongoDB Integrated Version
  */
 
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = "https://pg-hostel-finder-yevr.onrender.com/api";
 
 let dashboardProperties = [];
 let dashboardRooms = [];

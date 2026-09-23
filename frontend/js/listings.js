@@ -158,7 +158,7 @@ function initLocationButton() {
 
         try {
           const response = await fetch(
-            `http://localhost:5000/api/properties/nearby?longitude=${longitude}&latitude=${latitude}&maxDistance=15000`
+            `https://pg-hostel-finder-yevr.onrender.com/api/properties/nearby?longitude=${longitude}&latitude=${latitude}&maxDistance=15000`
           );
 
           const data = await response.json();
@@ -330,7 +330,7 @@ function resetAllFilters() {
 async function loadProperties() {
   try {
     const response = await fetch(
-      "http://localhost:5000/api/properties"
+      "https://pg-hostel-finder-yevr.onrender.com/api/properties"
     );
 
     const data = await response.json();
@@ -349,7 +349,7 @@ async function loadProperties() {
 
         try {
           const roomResponse = await fetch(
-            `http://localhost:5000/api/rooms/property/${property._id}`
+            `https://pg-hostel-finder-yevr.onrender.com/api/rooms/property/${property._id}`
           );
 
           const roomData = await roomResponse.json();
@@ -433,7 +433,7 @@ async function loadNearbyProperties(properties) {
 
       try {
         const roomResponse = await fetch(
-          `http://localhost:5000/api/rooms/property/${property._id}`
+          `https://pg-hostel-finder-yevr.onrender.com/api/rooms/property/${property._id}`
         );
 
         const roomData = await roomResponse.json();
@@ -515,7 +515,7 @@ async function loadFavorites() {
 
   try {
     const response = await fetch(
-      "http://localhost:5000/api/favorites",
+      "https://pg-hostel-finder-yevr.onrender.com/api/favorites",
       {
         method: "GET",
         headers: {
@@ -1192,7 +1192,7 @@ function bindFavoriteButtons() {
       // ==================================
       if (!isFavorite) {
         const response = await fetch(
-          "http://localhost:5000/api/favorites",
+          "https://pg-hostel-finder-yevr.onrender.com/api/favorites",
           {
             method: "POST",
             headers: {
@@ -1224,7 +1224,7 @@ function bindFavoriteButtons() {
       // ==================================
       } else {
         const response = await fetch(
-          `http://localhost:5000/api/favorites/${propertyId}`,
+          `https://pg-hostel-finder-yevr.onrender.com/api/favorites/${propertyId}`,
           {
             method: "DELETE",
             headers: {
