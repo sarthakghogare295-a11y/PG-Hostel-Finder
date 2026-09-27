@@ -260,6 +260,29 @@
 
       <!-- Listings Grid / Feed -->
       <section class="listings-results-area" aria-live="polite">
+        
+        <!-- XML Featured Stays Section -->
+        <section class="featured-stays-area" id="featuredStaysSection" style="margin-bottom: 2.5rem; display: none;">
+          <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary, #2563eb);">Featured Stays</h2>
+          
+          <div id="featuredLoading" style="padding: 1rem 0; color: var(--text-muted, #6b7280);">
+            Loading featured stays...
+          </div>
+          
+          <div id="featuredError" style="padding: 1rem 0; color: var(--text-muted, #6b7280); display: none;">
+            Featured stays are currently unavailable.
+          </div>
+          
+          <div id="featuredEmpty" style="padding: 1rem 0; color: var(--text-muted, #6b7280); display: none;">
+            No featured stays available at the moment.
+          </div>
+
+          <div class="listings-grid" id="featuredGrid" style="display: none;">
+            <!-- Dynamically populated from XML -->
+          </div>
+        </section>
+
+        <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary, #2563eb);">All Properties</h2>
         <div class="listings-grid" id="listingsGrid">
           <!-- Dynamically populated by listings.js -->
         </div>

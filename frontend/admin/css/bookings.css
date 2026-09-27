@@ -143,6 +143,7 @@
 .date-val { white-space: nowrap; font-weight: 500; }
 
 .status-badge {
+  position: static !important;
   display: inline-flex; align-items: center; justify-content: center; padding: 4px 10px;
   font-size: 0.7rem; font-weight: 700; border-radius: var(--radius-full);
   text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap;

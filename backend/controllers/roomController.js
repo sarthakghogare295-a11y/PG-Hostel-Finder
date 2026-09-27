@@ -117,6 +117,14 @@ const createRoom = async (req, res) => {
             });
         }
 
+        if (req.body.availableBeds > req.body.capacity) {
+            return res.status(400).json({
+                success: false,
+                message: "Failed to create room",
+                error: "Available beds cannot be greater than room capacity"
+            });
+        }
+
         const room = await Room.create({
             ...req.body,
             property: propertyId

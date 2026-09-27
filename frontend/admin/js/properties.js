@@ -16,6 +16,23 @@
 
 const API_BASE_URL = "https://pg-hostel-finder-yevr.onrender.com/api";
 
+function getFallbackImage(property) {
+  const img = property.images?.[0] || property.image;
+  if (img && !img.includes("1555854877")) return img;
+  const fallbacks = [
+    "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=700&q=80",
+    "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=700&q=80",
+    "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=700&q=80",
+    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=700&q=80",
+    "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=700&q=80",
+    "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=700&q=80"
+  ];
+  const s = property._id || property.id || property.name || "0";
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = s.charCodeAt(i) + ((h << 5) - h);
+  return fallbacks[Math.abs(h) % fallbacks.length];
+}
+
 let propertiesStore = [];
 let deleteTargetId = null;
 let currentRoomsPropId = null;
@@ -316,7 +333,7 @@ function normalizeProperty(
             Array.isArray(property.images) &&
                 property.images.length > 0
                 ? property.images[0]
-                : "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=700&q=80",
+                : "",
 
         rooms:
             normalizedRooms,
@@ -669,11 +686,7 @@ function renderTable() {
                     "img"
                 );
 
-            image.src =
-                getSafeString(
-                    property.image,
-                    "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=700&q=80"
-                );
+            image.src = getFallbackImage(property);
 
             image.alt = "cover";
             image.className =
@@ -1160,11 +1173,11 @@ function bindModalEvents() {
                     -1
                 );
 
-            const image =
+            const inputImage =
                 imageInput &&
                     imageInput.value.trim()
                     ? imageInput.value.trim()
-                    : "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=700&q=80";
+                    : "";
 
             // Validation
             if (!name || !locationText) {
@@ -1320,9 +1333,21 @@ function bindModalEvents() {
                 };
             }
 
-            // ==================================
-            // FINAL BACKEND PAYLOAD
-            // ==================================
+            const facilitiesInput = document.getElementById("propFacilities");
+            const facilitiesText = facilitiesInput ? facilitiesInput.value : "";
+            const facilitiesArray = facilitiesText
+                .split(",")
+                .map(f => f.trim())
+                .filter(f => f.length > 0);
+
+            let finalImages = Array.isArray(originalProperty?.images) ? [...originalProperty.images] : [];
+            if (inputImage) {
+                if (finalImages.length === 0 || finalImages[0] !== inputImage) {
+                    finalImages = [inputImage];
+                }
+            } else {
+                finalImages = [];
+            }
 
             const propertyData = {
                 name,
@@ -1344,14 +1369,9 @@ function bindModalEvents() {
 
                 deposit,
 
-                facilities:
-                    Array.isArray(
-                        originalProperty?.facilities
-                    )
-                        ? originalProperty.facilities
-                        : [],
+                facilities: facilitiesArray,
 
-                images: [image],
+                images: finalImages,
 
                 rules:
                     Array.isArray(
@@ -1744,8 +1764,8 @@ function bindModalEvents() {
                     !data.success
                 ) {
                     throw new Error(
-                        data.message ||
                         data.error ||
+                        data.message ||
                         "Failed to add room."
                     );
                 }
@@ -1954,6 +1974,11 @@ window.openPropertyModal = function (id) {
     safelySetInputValue(
         "propImage",
         property.image
+    );
+
+    safelySetInputValue(
+        "propFacilities",
+        Array.isArray(property.facilities) ? property.facilities.join(", ") : ""
     );
 
     const overlay =
@@ -2342,3 +2367,32 @@ window.deleteRoom =
 
 
 
+
+
+// Dropdown initialization
+document.addEventListener('DOMContentLoaded', () => {
+  const menuBtn = document.getElementById('adminProfileMenuBtn');
+  const dropdown = document.getElementById('adminProfileDropdown');
+  const topbarLogout = document.getElementById('adminTopbarLogoutBtn');
+
+  if (menuBtn && dropdown) {
+    menuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!menuBtn.contains(e.target)) {
+        dropdown.style.display = 'none';
+      }
+    });
+  }
+
+  if (topbarLogout) {
+    topbarLogout.addEventListener('click', () => {
+      sessionStorage.removeItem("pg_token");
+      sessionStorage.removeItem("pg_current_user");
+      window.location.href = "../login.html";
+    });
+  }
+});

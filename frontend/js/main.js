@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCardInteractions();
   initScrollReveal();
   initStatCounters();
+  initAuthUI();
 });
 
 // ==========================================
@@ -66,14 +67,11 @@ function initMobileNav() {
     navMenu.classList.toggle('is-open');
   });
 
-  const navLinks = navMenu.querySelectorAll('.nav-link');
-  navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      if (window.innerWidth <= 768) {
-        navMenu.classList.remove('is-open');
-        navToggleBtn.setAttribute('aria-expanded', 'false');
-      }
-    });
+  navMenu.addEventListener('click', (e) => {
+    if (e.target.closest('.nav-link') && window.innerWidth <= 768) {
+      navMenu.classList.remove('is-open');
+      navToggleBtn.setAttribute('aria-expanded', 'false');
+    }
   });
 }
 
@@ -168,12 +166,39 @@ function initGeolocation() {
             sessionStorage.setItem('pg_user_location', JSON.stringify(userLocation));
           } catch (_) {}
 
-          locationInput.value = 'Location detected';
-          geoBtn.disabled = false;
-          if (geoBtnText) geoBtnText.textContent = 'Location Detected';
-          setTimeout(() => {
-            if (geoBtnText) geoBtnText.textContent = 'Find PGs Near Me';
-          }, 2500);
+          fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${userLocation.latitude}&lon=${userLocation.longitude}`)
+            .then(res => res.json())
+            .then(data => {
+              if (data && data.address) {
+                const locality = data.address.suburb || data.address.neighbourhood || data.address.city_district || data.address.city || data.address.town || data.address.village || "";
+                const city = data.address.city || data.address.town || data.address.village || data.address.county || data.address.state_district || "";
+                
+                let readableName = 'Location detected';
+                if (locality && city && locality !== city) {
+                  readableName = `${locality}, ${city}`;
+                } else if (city) {
+                  readableName = city;
+                } else if (data.display_name) {
+                  readableName = data.display_name.split(',').slice(0, 2).join(', ');
+                }
+                
+                locationInput.value = readableName;
+                if (geoBtnText) geoBtnText.textContent = readableName;
+              } else {
+                locationInput.value = 'Location detected';
+                if (geoBtnText) geoBtnText.textContent = 'Location Detected';
+              }
+            })
+            .catch(err => {
+              locationInput.value = 'Location detected';
+              if (geoBtnText) geoBtnText.textContent = 'Location Detected';
+            })
+            .finally(() => {
+              geoBtn.disabled = false;
+              setTimeout(() => {
+                if (geoBtnText) geoBtnText.textContent = 'Find PGs Near Me';
+              }, 2500);
+            });
         },
         (error) => {
           let errorMsg = 'Location access was denied or timed out. Please enter your location manually.';
@@ -325,3 +350,66 @@ function formatStatNumber(value, targetStr) {
 
   return rounded + '+';
 }
+
+// ==========================================
+// 8. AUTH UI
+// ==========================================
+async function initAuthUI() {
+  const navActions = document.querySelector(".nav-actions");
+  if (!navActions) return;
+
+  const token = sessionStorage.getItem("pg_token");
+  if (!token) return;
+
+  const renderNav = (u) => {
+    const userName = u?.name || "Account";
+    const profileLink = u?.role === "admin" ? "admin/dashboard.html" : "profile.html";
+    navActions.innerHTML = `
+      <a href="${profileLink}" class="btn btn-login">
+        ${userName}
+      </a>
+      <button type="button" class="btn btn-register" id="logoutBtn">
+        Logout
+      </button>
+    `;
+    const logoutBtn = document.getElementById("logoutBtn");
+    if (logoutBtn) {
+      logoutBtn.addEventListener("click", () => {
+        sessionStorage.removeItem("pg_token");
+        sessionStorage.removeItem("pg_current_user");
+        window.location.href = "login.html";
+      });
+    }
+
+    const navLinks = document.querySelector(".nav-links");
+    if (navLinks) {
+      const path = window.location.pathname.split('/').pop() || 'index.html';
+      navLinks.innerHTML = `
+        <li><a href="index.html" class="nav-link ${path === 'index.html' || path === '' ? 'active' : ''}" ${path === 'index.html' || path === '' ? 'aria-current="page"' : ''}>Home</a></li>
+        <li><a href="listings.html" class="nav-link ${path === 'listings.html' ? 'active' : ''}" ${path === 'listings.html' ? 'aria-current="page"' : ''}>Explore</a></li>
+        <li><a href="bookings.html" class="nav-link ${path === 'bookings.html' ? 'active' : ''}" ${path === 'bookings.html' ? 'aria-current="page"' : ''}>My Bookings</a></li>
+        <li><a href="favorites.html" class="nav-link ${path === 'favorites.html' ? 'active' : ''}" ${path === 'favorites.html' ? 'aria-current="page"' : ''}>Favorites</a></li>
+        <li><a href="${u?.role === 'admin' ? 'admin/profile.html' : 'profile.html'}" class="nav-link ${path === 'profile.html' ? 'active' : ''}" ${path === 'profile.html' ? 'aria-current="page"' : ''}>Profile</a></li>
+      `;
+    }
+  };
+
+  const rawUser = sessionStorage.getItem("pg_current_user");
+  if (rawUser) {
+    try { renderNav(JSON.parse(rawUser)); } catch(e) {}
+  }
+
+  try {
+    const res = await fetch("https://pg-hostel-finder-yevr.onrender.com/api/auth/me", { headers: { "Authorization": `Bearer ${token}` }, cache: "no-store" });
+    const data = await res.json();
+    if (data.success && data.user) {
+      sessionStorage.setItem("pg_current_user", JSON.stringify(data.user));
+      renderNav(data.user);
+    } else {
+      sessionStorage.removeItem("pg_token");
+      sessionStorage.removeItem("pg_current_user");
+      window.location.reload();
+    }
+  } catch (err) {}
+}
+

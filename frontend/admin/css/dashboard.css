@@ -442,6 +442,7 @@
 
 /* Badges */
 .status-badge {
+  position: static !important;
   display: inline-block;
   padding: 4px 10px;
   font-size: 0.7rem;

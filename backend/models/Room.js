@@ -38,7 +38,10 @@ availableBeds: {
     min: 0,
     validate: {
         validator: function (value) {
-            return value <= this.capacity;
+            if (this.capacity !== undefined) {
+                return value <= this.capacity;
+            }
+            return true;
         },
         message: "Available beds cannot be greater than room capacity"
     }

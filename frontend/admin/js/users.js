@@ -245,8 +245,7 @@ async function loadUsersData() {
       );
     }
 
-    usersStore =
-      userData.users || [];
+    usersStore = (userData.users || []).filter(u => u.role !== "admin");
 
 
     // --------------------------------------
@@ -2204,3 +2203,33 @@ function bindModalEvents() {
 
 
 
+
+
+
+// Dropdown initialization
+document.addEventListener('DOMContentLoaded', () => {
+  const menuBtn = document.getElementById('adminProfileMenuBtn');
+  const dropdown = document.getElementById('adminProfileDropdown');
+  const topbarLogout = document.getElementById('adminTopbarLogoutBtn');
+
+  if (menuBtn && dropdown) {
+    menuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!menuBtn.contains(e.target)) {
+        dropdown.style.display = 'none';
+      }
+    });
+  }
+
+  if (topbarLogout) {
+    topbarLogout.addEventListener('click', () => {
+      sessionStorage.removeItem("pg_token");
+      sessionStorage.removeItem("pg_current_user");
+      window.location.href = "../login.html";
+    });
+  }
+});

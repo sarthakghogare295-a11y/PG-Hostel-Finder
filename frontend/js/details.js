@@ -6,6 +6,23 @@
 
 const API_BASE_URL = "https://pg-hostel-finder-yevr.onrender.com/api";
 
+function getFallbackImage(property) {
+  const img = property.images?.[0];
+  if (img && !img.includes("1555854877")) return img;
+  const fallbacks = [
+    "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=700&q=80",
+    "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=700&q=80",
+    "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=700&q=80",
+    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=700&q=80",
+    "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=700&q=80",
+    "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=700&q=80"
+  ];
+  const s = property._id || property.id || property.name || "0";
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = s.charCodeAt(i) + ((h << 5) - h);
+  return fallbacks[Math.abs(h) % fallbacks.length];
+}
+
 let currentProperty = null;
 let currentImageIndex = 0;
 let selectedRoom = null;
@@ -69,62 +86,63 @@ function initNavbar() {
 // ==========================================
 // 4. AUTH UI
 // ==========================================
-function initAuthUI() {
-  const navActions =
-    document.querySelector(".nav-actions");
-
+async function initAuthUI() {
+  const navActions = document.querySelector(".nav-actions");
   if (!navActions) return;
 
-  const token =
-    sessionStorage.getItem("pg_token");
-
-  const currentUser =
-    sessionStorage.getItem("pg_current_user");
-
+  const token = sessionStorage.getItem("pg_token");
   if (!token) return;
 
-  let user = null;
+  const renderNav = (u) => {
+    const userName = u?.name || "Account";
+    const profileLink = u?.role === "admin" ? "admin/dashboard.html" : "profile.html";
+    navActions.innerHTML = `
+      <a href="${profileLink}" class="btn btn-login">
+        ${userName}
+      </a>
+      <button type="button" class="btn btn-register" id="logoutBtn">
+        Logout
+      </button>
+    `;
+    const logoutBtn = document.getElementById("logoutBtn");
+    if (logoutBtn) {
+      logoutBtn.addEventListener("click", () => {
+        sessionStorage.removeItem("pg_token");
+        sessionStorage.removeItem("pg_current_user");
+        window.location.href = "login.html";
+      });
+    }
+
+    const navLinks = document.querySelector(".nav-links");
+    if (navLinks) {
+      const path = window.location.pathname.split('/').pop() || 'index.html';
+      navLinks.innerHTML = `
+        <li><a href="index.html" class="nav-link ${path === 'index.html' || path === '' ? 'active' : ''}" ${path === 'index.html' || path === '' ? 'aria-current="page"' : ''}>Home</a></li>
+        <li><a href="listings.html" class="nav-link ${path === 'listings.html' ? 'active' : ''}" ${path === 'listings.html' ? 'aria-current="page"' : ''}>Explore</a></li>
+        <li><a href="bookings.html" class="nav-link ${path === 'bookings.html' ? 'active' : ''}" ${path === 'bookings.html' ? 'aria-current="page"' : ''}>My Bookings</a></li>
+        <li><a href="favorites.html" class="nav-link ${path === 'favorites.html' ? 'active' : ''}" ${path === 'favorites.html' ? 'aria-current="page"' : ''}>Favorites</a></li>
+        <li><a href="profile.html" class="nav-link ${path === 'profile.html' ? 'active' : ''}" ${path === 'profile.html' ? 'aria-current="page"' : ''}>Profile</a></li>
+      `;
+    }
+  };
+
+  const rawUser = sessionStorage.getItem("pg_current_user");
+  if (rawUser) {
+    try { renderNav(JSON.parse(rawUser)); } catch(e) {}
+  }
 
   try {
-    user = currentUser
-      ? JSON.parse(currentUser)
-      : null;
-  } catch (error) {
-    console.error(
-      "Failed to read current user:",
-      error
-    );
-  }
-
-  const userName =
-    user?.name || "Account";
-
-  navActions.innerHTML = `
-    <a href="profile.html" class="btn btn-login">
-      ${userName}
-    </a>
-
-    <button
-      type="button"
-      class="btn btn-register"
-      id="logoutBtn"
-    >
-      Logout
-    </button>
-  `;
-
-  const logoutBtn =
-    document.getElementById("logoutBtn");
-
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", () => {
+    const res = await fetch("https://pg-hostel-finder-yevr.onrender.com/api/auth/me", { headers: { "Authorization": `Bearer ${token}` }, cache: "no-store" });
+    const data = await res.json();
+    if (data.success && data.user) {
+      sessionStorage.setItem("pg_current_user", JSON.stringify(data.user));
+      renderNav(data.user);
+    } else {
       sessionStorage.removeItem("pg_token");
       sessionStorage.removeItem("pg_current_user");
-
-      window.location.href =
-        "login.html";
-    });
-  }
+      window.location.reload();
+    }
+  } catch (err) {}
 }
 
 // ==========================================
@@ -446,16 +464,10 @@ function renderGallery(images) {
 
   if (
     !images ||
-    images.length === 0
+    images.length === 0 ||
+    (images.length === 1 && images[0].includes("1555854877"))
   ) {
-    mainImg.removeAttribute(
-      "src"
-    );
-
-    thumbsContainer.innerHTML =
-      "";
-
-    return;
+    images = [getFallbackImage(currentProperty)];
   }
 
   currentImageIndex = 0;

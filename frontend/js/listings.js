@@ -6,6 +6,23 @@
 // ==========================================
 // 1. DATA REPOSITORY
 // ==========================================
+function getFallbackImage(property) {
+  const img = property.images?.[0];
+  if (img && !img.includes("1555854877")) return img;
+  const fallbacks = [
+    "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=700&q=80",
+    "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=700&q=80",
+    "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=700&q=80",
+    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=700&q=80",
+    "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=700&q=80",
+    "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=700&q=80"
+  ];
+  const s = property._id || property.id || property.name || "0";
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = s.charCodeAt(i) + ((h << 5) - h);
+  return fallbacks[Math.abs(h) % fallbacks.length];
+}
+
 let PROPERTIES_DATA = [];
 
 const favoritesSet = new Set();
@@ -58,6 +75,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   await loadProperties();
   await loadFavorites();
+  await loadXMLProperties();
 
   applyFiltersAndRender();
 });
@@ -403,8 +421,7 @@ async function loadProperties() {
               ? "Available"
               : "Unavailable",
 
-          image:
-            property.images?.[0] || "",
+          image: getFallbackImage(property),
 
           dateAdded:
             new Date(property.createdAt).getTime(),
@@ -486,8 +503,7 @@ async function loadNearbyProperties(properties) {
             ? "Available"
             : "Unavailable",
 
-        image:
-          property.images?.[0] || "",
+        image: getFallbackImage(property),
 
         dateAdded:
           new Date(property.createdAt).getTime(),
@@ -1270,46 +1286,208 @@ function capitalize(str) {
   );
 }
 
-function initAuthUI() {
+async function initAuthUI() {
   const navActions = document.querySelector(".nav-actions");
-
   if (!navActions) return;
 
   const token = sessionStorage.getItem("pg_token");
-  const currentUser = sessionStorage.getItem("pg_current_user");
+  if (!token) return;
 
-  if (!token) {
-    return;
+  const renderNav = (u) => {
+    const userName = u?.name || "Account";
+    const profileLink = u?.role === "admin" ? "admin/dashboard.html" : "profile.html";
+    navActions.innerHTML = `
+      <a href="${profileLink}" class="btn btn-login">
+        ${userName}
+      </a>
+      <button type="button" class="btn btn-register" id="logoutBtn">
+        Logout
+      </button>
+    `;
+    const logoutBtn = document.getElementById("logoutBtn");
+    if (logoutBtn) {
+      logoutBtn.addEventListener("click", () => {
+        sessionStorage.removeItem("pg_token");
+        sessionStorage.removeItem("pg_current_user");
+        window.location.href = "login.html";
+      });
+    }
+
+    const navLinks = document.querySelector(".nav-links");
+    if (navLinks) {
+      const path = window.location.pathname.split('/').pop() || 'index.html';
+      navLinks.innerHTML = `
+        <li><a href="index.html" class="nav-link ${path === 'index.html' || path === '' ? 'active' : ''}" ${path === 'index.html' || path === '' ? 'aria-current="page"' : ''}>Home</a></li>
+        <li><a href="listings.html" class="nav-link ${path === 'listings.html' ? 'active' : ''}" ${path === 'listings.html' ? 'aria-current="page"' : ''}>Explore</a></li>
+        <li><a href="bookings.html" class="nav-link ${path === 'bookings.html' ? 'active' : ''}" ${path === 'bookings.html' ? 'aria-current="page"' : ''}>My Bookings</a></li>
+        <li><a href="favorites.html" class="nav-link ${path === 'favorites.html' ? 'active' : ''}" ${path === 'favorites.html' ? 'aria-current="page"' : ''}>Favorites</a></li>
+        <li><a href="profile.html" class="nav-link ${path === 'profile.html' ? 'active' : ''}" ${path === 'profile.html' ? 'aria-current="page"' : ''}>Profile</a></li>
+      `;
+    }
+  };
+
+  const rawUser = sessionStorage.getItem("pg_current_user");
+  if (rawUser) {
+    try { renderNav(JSON.parse(rawUser)); } catch(e) {}
   }
-
-  let user = null;
 
   try {
-    user = currentUser ? JSON.parse(currentUser) : null;
-  } catch (error) {
-    console.error("Failed to read current user:", error);
-  }
-
-  const userName = user?.name || "Account";
-
-  navActions.innerHTML = `
-    <a href="profile.html" class="btn btn-login">
-      ${userName}
-    </a>
-
-    <button type="button" class="btn btn-register" id="logoutBtn">
-      Logout
-    </button>
-  `;
-
-  const logoutBtn = document.getElementById("logoutBtn");
-
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", () => {
+    const res = await fetch("https://pg-hostel-finder-yevr.onrender.com/api/auth/me", { headers: { "Authorization": `Bearer ${token}` }, cache: "no-store" });
+    const data = await res.json();
+    if (data.success && data.user) {
+      sessionStorage.setItem("pg_current_user", JSON.stringify(data.user));
+      renderNav(data.user);
+    } else {
       sessionStorage.removeItem("pg_token");
       sessionStorage.removeItem("pg_current_user");
+      window.location.reload();
+    }
+  } catch (err) {}
+}
 
-      window.location.href = "login.html";
+// ==========================================
+// 15. XML FEATURED STAYS
+// ==========================================
+async function loadXMLProperties() {
+  const featuredSection = document.getElementById("featuredStaysSection");
+  const loading = document.getElementById("featuredLoading");
+  const errorEl = document.getElementById("featuredError");
+  const empty = document.getElementById("featuredEmpty");
+  const grid = document.getElementById("featuredGrid");
+
+  if (!featuredSection) return;
+  featuredSection.style.display = "block";
+
+  try {
+    const response = await fetch("https://pg-hostel-finder-yevr.onrender.com/api/xml/properties");
+    const data = await response.json();
+
+    if (loading) loading.style.display = "none";
+
+    if (!response.ok || !data.success) {
+      if (errorEl) errorEl.style.display = "block";
+      return;
+    }
+
+    const properties = data.data?.properties?.property || [];
+
+    if (!properties || properties.length === 0) {
+      if (empty) empty.style.display = "block";
+      return;
+    }
+
+    if (grid) grid.style.display = "grid";
+
+    properties.forEach(xmlProp => {
+      const name = xmlProp.name?.[0] || "Unknown Property";
+      const location = xmlProp.location?.[0] || "Unknown Location";
+      const propType = xmlProp.type?.[0] || "PG";
+      
+      let facilities = [];
+      if (xmlProp.facilities?.[0]?.facility) {
+        facilities = xmlProp.facilities[0].facility;
+      }
+      
+      let rules = [];
+      if (xmlProp.rules?.[0]?.rule) {
+        rules = xmlProp.rules[0].rule;
+      }
+      
+      const card = document.createElement("article");
+      card.className = "property-card";
+      
+      // MEDIA
+      const mediaDiv = document.createElement("div");
+      mediaDiv.className = "property-media";
+      
+      const img = document.createElement("img");
+      img.className = "property-image";
+      img.src = getFallbackImage({ name: name }); 
+      img.alt = `${name} interior`;
+      img.loading = "lazy";
+      mediaDiv.appendChild(img);
+      
+      const typeTag = document.createElement("span");
+      typeTag.className = "property-type-tag";
+      typeTag.textContent = propType;
+      mediaDiv.appendChild(typeTag);
+      
+      card.appendChild(mediaDiv);
+      
+      // DETAILS
+      const detailsDiv = document.createElement("div");
+      detailsDiv.className = "property-details";
+      
+      const nameEl = document.createElement("h3");
+      nameEl.className = "property-name";
+      nameEl.textContent = name;
+      detailsDiv.appendChild(nameEl);
+      
+      const locEl = document.createElement("p");
+      locEl.className = "property-location";
+      
+      const svgLoc = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svgLoc.setAttribute("width", "14");
+      svgLoc.setAttribute("height", "14");
+      svgLoc.setAttribute("viewBox", "0 0 24 24");
+      svgLoc.setAttribute("fill", "none");
+      svgLoc.setAttribute("stroke", "currentColor");
+      svgLoc.setAttribute("stroke-width", "2");
+      svgLoc.setAttribute("stroke-linecap", "round");
+      svgLoc.setAttribute("stroke-linejoin", "round");
+      svgLoc.setAttribute("aria-hidden", "true");
+      
+      const pathLoc = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      pathLoc.setAttribute("d", "M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z");
+      svgLoc.appendChild(pathLoc);
+      
+      const circleLoc = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      circleLoc.setAttribute("cx", "12");
+      circleLoc.setAttribute("cy", "10");
+      circleLoc.setAttribute("r", "3");
+      svgLoc.appendChild(circleLoc);
+      
+      locEl.appendChild(svgLoc);
+      locEl.appendChild(document.createTextNode(` ${location}`));
+      detailsDiv.appendChild(locEl);
+      
+      // FACILITIES
+      if (facilities.length > 0) {
+        const featuresEl = document.createElement("div");
+        featuresEl.className = "property-features-inline";
+        const topAmenities = facilities.slice(0, 3);
+        
+        topAmenities.forEach((amenity, idx) => {
+          featuresEl.appendChild(document.createTextNode(amenity));
+          if (idx < topAmenities.length - 1) {
+            featuresEl.appendChild(document.createTextNode(" "));
+            const sep = document.createElement("span");
+            sep.textContent = "•";
+            featuresEl.appendChild(sep);
+            featuresEl.appendChild(document.createTextNode(" "));
+          }
+        });
+        detailsDiv.appendChild(featuresEl);
+      }
+      
+      // RULES
+      if (rules.length > 0) {
+        const rulesEl = document.createElement("div");
+        rulesEl.style.marginTop = "0.75rem";
+        rulesEl.style.fontSize = "0.875rem";
+        rulesEl.style.color = "var(--text-muted, #6b7280)";
+        rulesEl.textContent = "Rules: " + rules.join(" • ");
+        detailsDiv.appendChild(rulesEl);
+      }
+      
+      card.appendChild(detailsDiv);
+      if (grid) grid.appendChild(card);
     });
+
+  } catch (error) {
+    console.error("XML properties loading error:", error);
+    if (loading) loading.style.display = "none";
+    if (errorEl) errorEl.style.display = "block";
   }
 }
+

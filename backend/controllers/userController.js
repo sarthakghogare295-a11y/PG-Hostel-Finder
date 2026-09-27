@@ -38,7 +38,7 @@ const getMyProfile = async (req, res) => {
 // ==========================================
 const updateMyProfile = async (req, res) => {
     try {
-        const { name, mobile } = req.body;
+        const { name, email, mobile } = req.body;
 
         const user = await User.findById(req.user.userId);
 
@@ -47,6 +47,17 @@ const updateMyProfile = async (req, res) => {
                 success: false,
                 message: "User not found"
             });
+        }
+
+        if (email !== undefined && email !== user.email) {
+            const existingUser = await User.findOne({ email });
+            if (existingUser) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Email already exists"
+                });
+            }
+            user.email = email;
         }
 
         if (name !== undefined) {
@@ -167,7 +178,7 @@ const changePassword = async (req, res) => {
 // ==========================================
 const getAllUsers = async (req, res) => {
     try {
-        const users = await User.find()
+        const users = await User.find({ role: 'user' })
             .select("-password")
             .sort({ createdAt: -1 });
 

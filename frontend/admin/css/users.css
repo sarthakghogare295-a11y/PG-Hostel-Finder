@@ -376,6 +376,7 @@
 /* Status Badges */
 .status-badge {
   display: inline-flex !important;
+  position: static !important;
   align-items: center;
   justify-content: center;
   padding: 4px 12px;

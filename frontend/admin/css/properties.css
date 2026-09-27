@@ -346,6 +346,7 @@
 .rent-val { font-weight: 800; color: var(--primary); }
 
 .status-badge {
+  position: static !important;
   display: inline-block;
   padding: 4px 10px;
   font-size: 0.7rem;
@@ -506,7 +507,7 @@
 
 /* Rooms Modal Additions */
 .modal-subtitle { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 16px; font-weight: 600; }
-.rooms-list-container { border: 1px solid var(--border-color); border-radius: var(--radius-sm); overflow: hidden; margin-bottom: 24px; }
+.rooms-list-container { border: 1px solid var(--border-color); border-radius: var(--radius-sm); overflow-x: auto; overflow-y: hidden; margin-bottom: 24px; }
 .mini-table th, .mini-table td { padding: 10px 14px; font-size: 0.85rem; }
 .mini-table th { background: var(--bg-light); border-bottom: 1px solid var(--border-color); }
 
